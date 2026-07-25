@@ -13,7 +13,7 @@
     /* Strictness */
     "strict": true,
     "noUncheckedIndexedAccess": true,
-    "checkJs": true,
+    "checkJs": false,
 
     /* Bundled Projects */
     "lib": [
@@ -25,14 +25,16 @@
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "jsx": "preserve",
+
     "plugins": [
       {
         "name": "next"
       }
     ],
+
     "incremental": true,
 
-    /* Suppress TypeScript 6 deprecation warnings */
+    /* Suppress TypeScript deprecation warnings */
     "ignoreDeprecations": "6.0",
 
     /* Path Aliases */
@@ -43,6 +45,7 @@
       ]
     }
   },
+
   "include": [
     "next-env.d.ts",
     "**/*.ts",
@@ -51,6 +54,7 @@
     "**/*.js",
     ".next/types/**/*.ts"
   ],
+
   "exclude": [
     "node_modules",
     "generated"

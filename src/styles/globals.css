@@ -1,202 +1,514 @@
 @import "tailwindcss";
 
+/* =========================================
+   HAYAGRIVA YOGA GLOBAL DESIGN SYSTEM
+   Premium Clinical Yoga Therapy Theme
+========================================= */
+
+
 :root {
+  --background: #050706;
+  --foreground: #f7efe0;
+
   --gold: #d6b36a;
-  --green: #7bae8a;
-  --cream: #f7efe0;
+  --gold-light: #f2d89a;
+
+  --forest: #7bae8a;
+  --forest-dark: #2d6b4b;
+
+  --card: #0d1511;
+  --muted: #b8c4ba;
 }
 
-* {
-  box-sizing: border-box;
-}
+
+/* =========================================
+   BASE
+========================================= */
 
 html {
   scroll-behavior: smooth;
 }
 
+
 body {
-  margin: 0;
-  background: #050706;
-  color: var(--cream);
-  font-family: var(--font-geist-sans), Arial, sans-serif;
+
+  min-height: 100vh;
+
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(214,179,106,0.15),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 10% 50%,
+      rgba(45,107,75,0.18),
+      transparent 35%
+    ),
+    var(--background);
+
+  color: var(--foreground);
+
+  font-family:
+    var(--font-geist),
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  overflow-x:hidden;
+
+  -webkit-font-smoothing: antialiased;
+
 }
+
+
+* {
+
+  box-sizing:border-box;
+
+}
+
+
+/* =========================================
+   TEXT SELECTION
+========================================= */
 
 ::selection {
-  background: var(--gold);
-  color: #050706;
+
+  background:var(--gold);
+
+  color:#050706;
+
 }
+
+
+/* =========================================
+   IMAGES
+========================================= */
+
+img {
+
+  user-select:none;
+
+  -webkit-user-drag:none;
+
+}
+
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+button {
+
+  cursor:pointer;
+
+}
+
+
+/* =========================================
+   PREMIUM SCROLLBAR
+========================================= */
+
+
+::-webkit-scrollbar {
+
+  width:10px;
+
+}
+
+
+::-webkit-scrollbar-track {
+
+  background:#050706;
+
+}
+
+
+::-webkit-scrollbar-thumb {
+
+  background:
+  linear-gradient(
+    var(--gold),
+    var(--forest)
+  );
+
+  border-radius:20px;
+
+}
+
+
+
+/* =========================================
+   TEMPLE GRID EFFECT
+   Used in Hero + Sections
+========================================= */
+
 
 .temple-grid {
+
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
-  background-size: 72px 72px;
-  mask-image: radial-gradient(circle at center, black, transparent 72%);
+
+  linear-gradient(
+    rgba(214,179,106,0.08) 1px,
+    transparent 1px
+  ),
+
+  linear-gradient(
+    90deg,
+    rgba(214,179,106,0.08) 1px,
+    transparent 1px
+  );
+
+
+  background-size:
+
+  55px 55px;
+
+
+  mask-image:
+
+  radial-gradient(
+    ellipse at center,
+    black,
+    transparent 75%
+  );
+
 }
+
+
+
+/* =========================================
+   GLASS CARD
+========================================= */
+
+
+.glass-card {
+
+  background:
+
+  rgba(255,255,255,0.04);
+
+
+  backdrop-filter:
+
+  blur(20px);
+
+
+  border:
+
+  1px solid rgba(255,255,255,0.1);
+
+
+}
+
+
+
+/* =========================================
+   GOLD GLOW
+========================================= */
+
+
+.gold-glow {
+
+  box-shadow:
+
+  0 0 60px
+  rgba(214,179,106,0.35);
+
+}
+
+
+
+/* =========================================
+   FOREST GLOW
+========================================= */
+
+
+.green-glow {
+
+  box-shadow:
+
+  0 0 60px
+  rgba(123,174,138,0.25);
+
+}
+
+
+
+/* =========================================
+   PREMIUM TYPOGRAPHY
+========================================= */
+
+
+.font-serif {
+
+  font-family:
+
+  var(--font-serif),
+  Georgia,
+  serif;
+
+}
+
+
+
+/* =========================================
+   HERO TEMPLE ARCH
+========================================= */
+
 
 .temple-arch {
-  border-radius: 999px 999px 56px 56px;
-  border: 1px solid rgba(214, 179, 106, 0.3);
+
+  position:relative;
+
+  border-radius:
+
+  220px 220px 40px 40px;
+
   background:
-    radial-gradient(circle at 50% 35%, rgba(214, 179, 106, 0.2), transparent 34%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
-  box-shadow:
-    inset 0 0 90px rgba(214, 179, 106, 0.12),
-    0 0 120px rgba(214, 179, 106, 0.18);
+
+  linear-gradient(
+    180deg,
+    rgba(214,179,106,.18),
+    rgba(13,21,17,.8)
+  );
+
+
+  border:
+
+  1px solid rgba(214,179,106,.25);
+
+
 }
+
+
+
+/* =========================================
+   LIGHT EFFECT
+========================================= */
+
 
 .temple-light {
-  position: absolute;
-  inset: 35px;
-  border-radius: 999px 999px 44px 44px;
+
+  position:absolute;
+
+  inset:20%;
+
+  border-radius:50%;
+
   background:
-    radial-gradient(circle at center, rgba(247, 239, 224, 0.14), transparent 42%),
-    linear-gradient(180deg, rgba(214, 179, 106, 0.14), rgba(123, 174, 138, 0.05));
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  animation: templeBreath 5.8s ease-in-out infinite;
+
+  radial-gradient(
+    circle,
+    rgba(214,179,106,.5),
+    transparent 65%
+  );
+
+
+  filter:blur(40px);
+
 }
 
-.temple-inner {
-  position: absolute;
-  inset: 82px;
-  border-radius: 999px 999px 36px 36px;
-  border: 1px solid rgba(214, 179, 106, 0.22);
-  background: rgba(5, 7, 6, 0.35);
-  backdrop-filter: blur(18px);
-}
 
-.breath-sun {
-  position: absolute;
-  top: 190px;
-  height: 140px;
-  width: 140px;
-  border-radius: 999px;
-  border: 1px solid rgba(214, 179, 106, 0.32);
-  box-shadow: 0 0 80px rgba(214, 179, 106, 0.35);
-  animation: sunBreath 4.8s ease-in-out infinite;
-}
 
-.breath-sun span {
-  position: absolute;
-  inset: 34px;
-  border-radius: 999px;
-  background: var(--gold);
-  box-shadow: 0 0 80px var(--gold);
-}
+/* =========================================
+   MANDALA ANIMATION
+========================================= */
+
 
 .mandala {
-  position: absolute;
-  border-radius: 999px;
-  border: 1px solid rgba(214, 179, 106, 0.16);
+
+ position:absolute;
+
+ border-radius:50%;
+
+ border:
+
+ 1px solid rgba(214,179,106,.25);
+
+ animation:
+
+ rotateMandala 30s linear infinite;
+
 }
+
 
 .mandala-one {
-  height: 420px;
-  width: 420px;
-  animation: rotateMandala 28s linear infinite;
+
+ width:420px;
+
+ height:420px;
+
 }
+
 
 .mandala-two {
-  height: 320px;
-  width: 320px;
-  animation: rotateMandala 18s linear infinite reverse;
+
+ width:300px;
+
+ height:300px;
+
+ animation-direction:reverse;
+
 }
+
 
 .mandala-three {
-  height: 220px;
-  width: 220px;
-  animation: rotateMandala 12s linear infinite;
+
+ width:180px;
+
+ height:180px;
+
 }
 
-.neuro-line {
-  position: absolute;
-  height: 2px;
-  width: 260px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, transparent, var(--green), var(--gold), transparent);
-  box-shadow: 0 0 32px rgba(214, 179, 106, 0.8);
-  animation: neuroFlow 3.8s ease-in-out infinite;
-}
 
-.line-one {
-  top: 230px;
-}
-
-.line-two {
-  top: 290px;
-  width: 340px;
-  animation-delay: 0.5s;
-}
-
-.line-three {
-  top: 350px;
-  width: 300px;
-  animation-delay: 1s;
-}
-
-.line-four {
-  top: 410px;
-  width: 220px;
-  animation-delay: 1.5s;
-}
-
-@keyframes templeBreath {
-  0%,
-  100% {
-    transform: scale(0.96);
-    opacity: 0.72;
-  }
-
-  50% {
-    transform: scale(1.04);
-    opacity: 1;
-  }
-}
-
-@keyframes sunBreath {
-  0%,
-  100% {
-    transform: scale(0.86);
-    opacity: 0.6;
-  }
-
-  50% {
-    transform: scale(1.18);
-    opacity: 1;
-  }
-}
 
 @keyframes rotateMandala {
-  from {
-    transform: rotate(0deg);
-  }
 
-  to {
-    transform: rotate(360deg);
-  }
+ from {
+
+ transform:rotate(0deg);
+
+ }
+
+ to {
+
+ transform:rotate(360deg);
+
+ }
+
 }
 
-@keyframes neuroFlow {
-  0% {
-    transform: translateX(-50px) scaleX(0.45);
-    opacity: 0;
-  }
 
-  45% {
-    opacity: 1;
-  }
 
-  100% {
-    transform: translateX(50px) scaleX(1);
-    opacity: 0;
-  }
+/* =========================================
+   BREATH ANIMATION
+========================================= */
+
+
+.breath-sun {
+
+ width:120px;
+
+ height:120px;
+
+ border-radius:50%;
+
+ background:
+
+ radial-gradient(
+ circle,
+ #d6b36a,
+ transparent 70%
+ );
+
+
+ animation:
+
+ breathing 6s ease-in-out infinite;
+
 }
 
-@media (max-width: 768px) {
-  .temple-arch {
-    transform: scale(0.78);
-  }
+
+
+@keyframes breathing {
+
+
+0%,
+100% {
+
+ transform:scale(.9);
+
+ opacity:.7;
+
 }
-body {
-  font-family: var(--font-poppins), sans-serif;
+
+
+50% {
+
+ transform:scale(1.15);
+
+ opacity:1;
+
+}
+
+
+}
+
+
+
+/* =========================================
+   INPUT DESIGN
+========================================= */
+
+
+input,
+textarea,
+select {
+
+
+ outline:none;
+
+
+}
+
+
+input:focus,
+textarea:focus,
+select:focus {
+
+
+ border-color:
+
+ rgba(214,179,106,.6);
+
+
+ box-shadow:
+
+ 0 0 20px
+
+ rgba(214,179,106,.15);
+
+
+}
+
+
+
+/* =========================================
+   ANIMATION UTILITIES
+========================================= */
+
+
+.fade-up {
+
+ animation:
+
+ fadeUp .8s ease forwards;
+
+}
+
+
+
+@keyframes fadeUp {
+
+
+from {
+
+ opacity:0;
+
+ transform:translateY(30px);
+
+}
+
+
+to {
+
+ opacity:1;
+
+ transform:translateY(0);
+
+}
+
+
 }
