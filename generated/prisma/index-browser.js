@@ -121,6 +121,37 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.UserScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  emailVerified: 'emailVerified',
+  image: 'image'
+};
+
+exports.Prisma.BookingScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  phone: 'phone',
+  email: 'email',
+  service: 'service',
+  message: 'message',
+  createdAt: 'createdAt',
+  status: 'status',
+  zoomJoinUrl: 'zoomJoinUrl',
+  zoomMeetingId: 'zoomMeetingId',
+  zoomStartUrl: 'zoomStartUrl'
+};
+
+exports.Prisma.ContactMessageScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  phone: 'phone',
+  message: 'message',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.PostScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -152,41 +183,10 @@ exports.Prisma.SessionScalarFieldEnum = {
   expires: 'expires'
 };
 
-exports.Prisma.UserScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  email: 'email',
-  emailVerified: 'emailVerified',
-  image: 'image'
-};
-
 exports.Prisma.VerificationTokenScalarFieldEnum = {
   identifier: 'identifier',
   token: 'token',
   expires: 'expires'
-};
-
-exports.Prisma.BookingScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  phone: 'phone',
-  email: 'email',
-  service: 'service',
-  message: 'message',
-  zoomMeetingId: 'zoomMeetingId',
-  zoomJoinUrl: 'zoomJoinUrl',
-  zoomStartUrl: 'zoomStartUrl',
-  status: 'status',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.ContactMessageScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  email: 'email',
-  phone: 'phone',
-  message: 'message',
-  createdAt: 'createdAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -211,13 +211,13 @@ exports.BookingStatus = exports.$Enums.BookingStatus = {
 };
 
 exports.Prisma.ModelName = {
+  User: 'User',
+  Booking: 'Booking',
+  ContactMessage: 'ContactMessage',
   Post: 'Post',
   Account: 'Account',
   Session: 'Session',
-  User: 'User',
-  VerificationToken: 'VerificationToken',
-  Booking: 'Booking',
-  ContactMessage: 'ContactMessage'
+  VerificationToken: 'VerificationToken'
 };
 
 /**

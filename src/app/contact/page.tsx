@@ -108,7 +108,7 @@ export default function ContactPage() {
 
                 <div
                   key={item.title}
-                  className="rounded-3xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur transition hover:border-[#d6b36a]/50"
+                  className="rounded-3xl border border-white/10 bg-white/4 p-6 backdrop-blur transition hover:border-[#d6b36a]/50"
                 >
 
                   <div className="flex gap-5">

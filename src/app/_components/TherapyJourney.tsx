@@ -1,283 +1,153 @@
 "use client";
 
 import { motion } from "framer-motion";
-import {
-  ClipboardCheck,
-  Search,
-  FileHeart,
-  Video,
-  TrendingUp,
+import { 
+  Calendar, 
+  User, 
+  Heart, 
   Sparkles,
+  ArrowRight,
+  CheckCircle,
+  Clock,
+  Video,
+  FileText,
+  Users
 } from "lucide-react";
 
-const journey = [
+const journeySteps = [
   {
-    step: "01",
-    icon: ClipboardCheck,
-    title: "Initial Assessment",
-    description:
-      "Understanding your health history, lifestyle, symptoms, goals and current physical capacity.",
+    icon: Calendar,
+    title: "Book Your Session",
+    description: "Choose a time that works for you and book your first session with a certified therapist.",
   },
   {
-    step: "02",
-    icon: Search,
-    title: "Therapeutic Analysis",
-    description:
-      "Identifying breathing patterns, movement limitations and lifestyle factors affecting wellbeing.",
+    icon: FileText,
+    title: "Health Assessment",
+    description: "Complete a detailed health assessment to help us understand your unique needs and goals.",
   },
   {
-    step: "03",
-    icon: FileHeart,
-    title: "Personalised Plan",
-    description:
-      "Creating a structured yoga therapy protocol based on your individual requirements.",
-  },
-  {
-    step: "04",
     icon: Video,
-    title: "Guided Practice",
-    description:
-      "Live online sessions with posture correction, breathing guidance and meditation practices.",
+    title: "Live Therapy Session",
+    description: "Connect with your therapist via HD video for a personalized 1-on-1 session.",
   },
   {
-    step: "05",
-    icon: TrendingUp,
-    title: "Progress Tracking",
-    description:
-      "Monitoring improvements and adjusting practices according to your response.",
+    icon: Heart,
+    title: "Ongoing Support",
+    description: "Receive personalized guidance, track your progress, and adjust your program as you heal.",
   },
-  {
-    step: "06",
-    icon: Sparkles,
-    title: "Long-Term Transformation",
-    description:
-      "Building sustainable habits for better balance, energy and quality of life.",
-  },
+];
+
+const stats = [
+  { number: "94%", label: "Report Improvement" },
+  { number: "2,500+", label: "Happy Clients" },
+  { number: "4.9/5", label: "Average Rating" },
 ];
 
 export default function TherapyJourney() {
   return (
-    <section className="relative overflow-hidden bg-[#050706] px-6 py-24 text-[#f7efe0]">
-
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#d6b36a15,transparent_45%)]" />
-
-      <div className="relative mx-auto max-w-7xl">
-
-        {/* Heading */}
-
-        <motion.div
-          initial={{opacity:0,y:30}}
-          whileInView={{opacity:1,y:0}}
-          viewport={{once:true}}
-        >
-
-          <p className="text-xs font-black uppercase tracking-[0.4em] text-[#d6b36a]">
-            Therapy Journey
-          </p>
-
-          <h2 className="mt-5 max-w-5xl text-[clamp(2.5rem,5vw,5rem)] font-black leading-[0.95] tracking-[-0.05em]">
-            From Assessment
-            <span className="text-[#7bae8a]">
-              {" "}
-              To Transformation
+    <section className="section bg-white">
+      <div className="container">
+        {/* Header */}
+        <div className="mx-auto max-w-3xl text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <span className="inline-block rounded-full border border-[#e8e8e8] px-4 py-1.5 text-xs font-medium text-[#666666] uppercase tracking-wider">
+              How It Works
             </span>
-          </h2>
-
-          <p className="mt-6 max-w-3xl text-lg leading-8 text-[#b8c4ba]">
-            A systematic approach that combines traditional yoga knowledge with
-            personalised therapeutic guidance.
-          </p>
-
-        </motion.div>
-
-
-
-        {/* Timeline */}
-
-        <div className="relative mt-16">
-
-          {/* Line */}
-
-          <div
-          className="
-          absolute
-          left-7
-          top-0
-          hidden
-          h-full
-          w-px
-          bg-[#d6b36a]/20
-          md:block
-          "
-          />
-
-
-          <div className="space-y-8">
-
-            {journey.map((item,index)=>{
-
-              const Icon = item.icon;
-
-              return (
-
-                <motion.div
-                key={item.step}
-
-                initial={{
-                  opacity:0,
-                  x:-30,
-                }}
-
-                whileInView={{
-                  opacity:1,
-                  x:0,
-                }}
-
-                viewport={{
-                  once:true,
-                }}
-
-                transition={{
-                  delay:index*0.1,
-                }}
-
-                className="
-                relative
-                flex
-                gap-6
-                "
-                >
-
-
-                  {/* Number */}
-
-                  <div
-                  className="
-                  relative
-                  z-10
-                  flex
-                  h-14
-                  w-14
-                  shrink-0
-                  items-center
-                  justify-center
-                  rounded-full
-                  border
-                  border-[#d6b36a]/40
-                  bg-[#050706]
-                  text-[#d6b36a]
-                  "
-                  >
-
-                    <span className="text-xs font-black">
-                      {item.step}
-                    </span>
-
-                  </div>
-
-
-
-                  {/* Content */}
-
-                  <div
-                  className="
-                  flex-1
-                  rounded-[2rem]
-                  border
-                  border-white/10
-                  bg-white/[0.035]
-                  p-7
-                  backdrop-blur
-                  transition
-                  hover:border-[#d6b36a]/40
-                  "
-                  >
-
-                    <div className="flex flex-col gap-5 md:flex-row md:items-center">
-
-
-                      <div
-                      className="
-                      flex
-                      h-14
-                      w-14
-                      items-center
-                      justify-center
-                      rounded-2xl
-                      bg-[#7bae8a]/10
-                      text-[#7bae8a]
-                      "
-                      >
-
-                        <Icon className="h-7 w-7"/>
-
-                      </div>
-
-
-
-                      <div>
-
-                        <h3 className="text-2xl font-black text-white">
-                          {item.title}
-                        </h3>
-
-
-                        <p className="mt-3 leading-7 text-[#b8c4ba]">
-                          {item.description}
-                        </p>
-
-                      </div>
-
-
-                    </div>
-
-
-                  </div>
-
-
-                </motion.div>
-
-              );
-
-            })}
-
-          </div>
-
+            <h2 className="mt-4 text-3xl font-bold text-[#1a1a1a] md:text-4xl">
+              Your Journey to Wellness
+            </h2>
+            <p className="mt-4 text-lg text-[#666666]">
+              Four simple steps to start your healing journey with expert guidance
+            </p>
+          </motion.div>
         </div>
 
+        {/* Journey Steps */}
+        <div className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+          {journeySteps.map((step, index) => {
+            const Icon = step.icon;
+            return (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="relative group"
+              >
+                {/* Step Number */}
+                <div className="absolute -top-3 -left-3 flex h-8 w-8 items-center justify-center rounded-full bg-[#d6b36a] text-sm font-bold text-white">
+                  {index + 1}
+                </div>
 
+                {/* Card */}
+                <div className="rounded-xl border border-[#e8e8e8] bg-white p-8 transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+                  <div className="mb-4 inline-flex rounded-xl bg-[#fafafa] p-3">
+                    <Icon className="h-6 w-6 text-[#d6b36a]" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-[#1a1a1a]">
+                    {step.title}
+                  </h3>
+                  <p className="mt-2 text-sm text-[#666666] leading-relaxed">
+                    {step.description}
+                  </p>
+                </div>
 
-        {/* Final Message */}
+                {/* Connector Line */}
+                {index < journeySteps.length - 1 && (
+                  <div className="hidden lg:block absolute top-1/2 -right-4 h-0.5 w-8 bg-[#e8e8e8]">
+                    <div className="absolute right-0 top-1/2 h-2 w-2 -translate-y-1/2 rotate-45 border-r-2 border-t-2 border-[#e8e8e8]" />
+                  </div>
+                )}
+              </motion.div>
+            );
+          })}
+        </div>
 
+        {/* Stats Section */}
         <motion.div
-        initial={{opacity:0,scale:.95}}
-        whileInView={{opacity:1,scale:1}}
-        viewport={{once:true}}
-        className="
-        mt-16
-        rounded-[3rem]
-        border
-        border-[#7bae8a]/30
-        bg-[#0c120e]
-        p-10
-        text-center
-        "
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          viewport={{ once: true }}
+          className="mt-20 rounded-2xl border border-[#e8e8e8] bg-[#fafafa] p-8 md:p-12"
         >
-
-          <h3 className="text-3xl font-black text-white">
-            Your health journey begins with understanding.
-          </h3>
-
-          <p className="mx-auto mt-4 max-w-2xl text-[#b8c4ba]">
-            We don't provide a generic routine. We design a therapy pathway
-            around your body, breath and lifestyle.
-          </p>
-
+          <div className="grid gap-8 md:grid-cols-3">
+            {stats.map((stat, index) => (
+              <div key={index} className="text-center">
+                <div className="text-3xl font-bold text-[#1a1a1a]">
+                  {stat.number}
+                </div>
+                <div className="mt-1 text-sm text-[#666666]">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </div>
         </motion.div>
 
-
+        {/* CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          viewport={{ once: true }}
+          className="mt-12 text-center"
+        >
+          <a
+            href="/booking"
+            className="inline-flex items-center gap-2 rounded-full bg-[#1a1a1a] px-8 py-3.5 text-sm font-medium text-white transition-all hover:bg-[#333333] hover:-translate-y-0.5"
+          >
+            Start Your Journey
+            <ArrowRight className="h-4 w-4" />
+          </a>
+        </motion.div>
       </div>
-
     </section>
   );
 }

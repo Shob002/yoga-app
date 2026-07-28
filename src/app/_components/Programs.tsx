@@ -2,316 +2,160 @@
 
 import { motion } from "framer-motion";
 import {
-  Check,
-  Crown,
-  CalendarDays,
-  UserRound,
-  Video,
-  Sparkles,
+  ArrowRight,
+  Brain,
+  HeartPulse,
+  Moon,
 } from "lucide-react";
 import Link from "next/link";
 
 const programs = [
   {
-    title: "Yoga Therapy Starter",
-    subtitle: "Foundation Program",
-    duration: "15 Days",
-    price: "Personalized",
-    icon: CalendarDays,
+    icon: HeartPulse,
+    title: "Therapeutic Yoga",
+    description:
+      "Personalised yoga therapy designed around your health condition, lifestyle and individual needs.",
     features: [
-      "Initial health assessment",
-      "Basic therapeutic yoga plan",
-      "Breathing practice guidance",
-      "Lifestyle recommendations",
-      "Progress review",
+      "Condition-specific practices",
+      "Individual assessment",
+      "Progress monitoring",
     ],
-    highlight: false,
   },
-
   {
-    title: "Transformation Program",
-    subtitle: "Most Recommended",
-    duration: "30 Days",
-    price: "Premium",
-    icon: Sparkles,
+    icon: Brain,
+    title: "Mind & Stress Wellness",
+    description:
+      "Evidence-informed practices to support stress management, emotional balance and mental wellbeing.",
     features: [
-      "Complete clinical assessment",
-      "Personalized yoga therapy sessions",
-      "Pranayama & meditation protocol",
-      "Weekly progress monitoring",
-      "Lifestyle correction plan",
+      "Breathing practices",
+      "Mindfulness techniques",
+      "Relaxation training",
     ],
-    highlight: true,
+    recommended: true,
   },
-
   {
-    title: "Private Wellness",
-    subtitle: "1-on-1 Intensive",
-    duration: "Custom",
-    price: "Elite",
-    icon: Crown,
+    icon: Moon,
+    title: "Sleep & Recovery",
+    description:
+      "A structured approach using yoga, breathwork and relaxation techniques to support healthy sleep and recovery.",
     features: [
-      "Dedicated yoga therapist",
-      "Condition-specific protocol",
-      "Flexible session timing",
-      "Advanced relaxation techniques",
-      "Long-term wellness support",
+      "Sleep-supportive practices",
+      "Yoga Nidra",
+      "Evening relaxation",
     ],
-    highlight: false,
   },
 ];
 
 export default function Programs() {
   return (
     <section className="relative overflow-hidden bg-[#050706] px-6 py-24 text-[#f7efe0]">
-
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,#d6b36a18,transparent_40%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,#2d6b4b18,transparent_45%)]" />
 
       <div className="relative mx-auto max-w-7xl">
-
-
-        {/* Heading */}
         <motion.div
-          initial={{opacity:0,y:30}}
-          whileInView={{opacity:1,y:0}}
-          viewport={{once:true}}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
         >
-
           <p className="text-xs font-black uppercase tracking-[0.4em] text-[#d6b36a]">
-            Therapy Programs
+            Our Programs
           </p>
 
           <h2 className="mt-5 max-w-5xl text-[clamp(2.5rem,5vw,5rem)] font-black leading-[0.95] tracking-[-0.05em]">
-            Choose Your
-            <span className="text-[#7bae8a]">
-              {" "}
-              Healing Pathway
-            </span>
+            A personalised path to{" "}
+            <span className="text-[#7bae8a]">better wellbeing.</span>
           </h2>
 
-
           <p className="mt-6 max-w-3xl text-lg leading-8 text-[#b8c4ba]">
-            Structured online yoga therapy programs designed for different
-            health goals, lifestyle needs and levels of support.
+            Choose a structured program designed to help you build healthier
+            habits through personalised yoga, breathwork, mindfulness and
+            relaxation practices.
           </p>
-
         </motion.div>
 
-
-
-        {/* Program Cards */}
-
-        <div className="mt-14 grid gap-6 lg:grid-cols-3">
-
-          {programs.map((program,index)=>{
-
+        <div className="mt-14 grid gap-6 md:grid-cols-3">
+          {programs.map((program, index) => {
             const Icon = program.icon;
 
-            return(
-
+            return (
               <motion.div
                 key={program.title}
-                initial={{
-                  opacity:0,
-                  y:40,
-                }}
-                whileInView={{
-                  opacity:1,
-                  y:0,
-                }}
-                viewport={{
-                  once:true,
-                }}
-                transition={{
-                  delay:index*0.1
-                }}
-                whileHover={{
-                  y:-10
-                }}
-
-                className={`
-                relative
-                rounded-[2.5rem]
-                border
-                p-8
-                backdrop-blur
-                transition
-
-                ${
-                  program.highlight
-                  ?
-                  "border-[#d6b36a]/60 bg-[#d6b36a]/10 shadow-[0_0_80px_#d6b36a20]"
-                  :
-                  "border-white/10 bg-white/[0.035]"
-                }
-                `}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                whileHover={{ y: -10 }}
+                className="relative rounded-[2.5rem] border border-white/10 bg-white/[0.035] p-8 backdrop-blur transition hover:border-[#d6b36a]/40"
               >
+                {program.recommended && (
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-[#d6b36a] px-5 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-[#050706]">
+                    Recommended
+                  </div>
+                )}
 
-
-                {
-                  program.highlight && (
-                    <div
-                    className="
-                    absolute
-                    -top-4
-                    left-1/2
-                    -translate-x-1/2
-                    rounded-full
-                    bg-[#d6b36a]
-                    px-5
-                    py-2
-                    text-xs
-                    font-black
-                    uppercase
-                    tracking-widest
-                    text-[#050706]
-                    "
-                    >
-                      Recommended
-                    </div>
-                  )
-                }
-
-
-
-                <div
-                className="
-                flex
-                h-16
-                w-16
-                items-center
-                justify-center
-                rounded-2xl
-                bg-[#d6b36a]/10
-                text-[#d6b36a]
-                "
-                >
-                  <Icon className="h-8 w-8"/>
+                <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#d6b36a]/10 text-[#d6b36a]">
+                  <Icon className="h-8 w-8" />
                 </div>
 
-
-
-                <p className="mt-8 text-xs font-bold uppercase tracking-[0.3em] text-[#7bae8a]">
-                  {program.subtitle}
+                <p className="mt-8 text-xs font-black uppercase tracking-[0.25em] text-[#7bae8a]">
+                  Personalised Care
                 </p>
 
-
-                <h3 className="mt-3 text-3xl font-black text-white">
+                <h3 className="mt-3 text-2xl font-black text-white">
                   {program.title}
                 </h3>
 
+                <p className="mt-4 leading-7 text-[#b8c4ba]">
+                  {program.description}
+                </p>
 
-                <div className="mt-5 flex items-center justify-between border-b border-white/10 pb-5">
-
-                  <span className="text-[#b8c4ba]">
-                    {program.duration}
-                  </span>
-
-                  <span className="font-black text-[#d6b36a]">
-                    {program.price}
-                  </span>
-
-                </div>
-
-
-
-                <ul className="mt-7 space-y-4">
-
-                  {
-                    program.features.map(feature=>(
-
-                      <li
+                <ul className="mt-7 space-y-3">
+                  {program.features.map((feature) => (
+                    <li
                       key={feature}
-                      className="flex items-start gap-3 text-sm text-[#b8c4ba]"
-                      >
-
-                        <Check
-                        className="mt-0.5 h-5 w-5 text-[#d6b36a]"
-                        />
-
-                        {feature}
-
-                      </li>
-
-                    ))
-                  }
-
+                      className="flex items-center gap-3 text-sm text-[#c7d0c9]"
+                    >
+                      <span className="h-1.5 w-1.5 rounded-full bg-[#d6b36a]" />
+                      {feature}
+                    </li>
+                  ))}
                 </ul>
 
-
-
                 <Link
-                href="/booking"
-                className="
-                mt-8
-                flex
-                items-center
-                justify-center
-                gap-2
-                rounded-full
-                bg-[#d6b36a]
-                px-6
-                py-3
-                text-sm
-                font-black
-                uppercase
-                tracking-widest
-                text-[#050706]
-                transition
-                hover:shadow-[0_0_50px_#d6b36a55]
-                "
+                  href="/booking"
+                  className="mt-8 flex items-center justify-center gap-2 rounded-full border border-[#d6b36a]/30 px-6 py-3 text-sm font-black uppercase tracking-[0.15em] text-[#d6b36a] transition hover:bg-[#d6b36a] hover:text-[#050706]"
                 >
-
-                  <Video className="h-4 w-4"/>
-                  Start Assessment
-
+                  Explore Program
+                  <ArrowRight className="h-4 w-4" />
                 </Link>
-
-
               </motion.div>
-
-            )
-
+            );
           })}
-
         </div>
 
-
-        {/* Bottom Message */}
-
-        <div
-        className="
-        mt-16
-        rounded-[3rem]
-        border
-        border-white/10
-        bg-[#0c120e]
-        p-8
-        text-center
-        "
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="mt-16 rounded-[3rem] border border-[#d6b36a]/20 bg-[#0c120e] p-10 text-center"
         >
-
-          <div className="flex justify-center">
-            <UserRound className="h-8 w-8 text-[#d6b36a]"/>
-          </div>
-
-
-          <h3 className="mt-4 text-2xl font-black text-white">
-            Every body is different. Every therapy plan is personalized.
+          <h3 className="text-3xl font-black text-white">
+            Not sure which program is right for you?
           </h3>
 
-
-          <p className="mx-auto mt-3 max-w-2xl text-[#b8c4ba]">
-            Your journey begins with assessment, understanding and a therapy
-            plan created according to your condition.
+          <p className="mx-auto mt-4 max-w-2xl text-[#b8c4ba]">
+            Start with a personalised assessment and receive guidance based on
+            your goals, lifestyle and current wellbeing needs.
           </p>
 
-
-        </div>
-
-
+          <Link
+            href="/booking"
+            className="mt-7 inline-flex rounded-full bg-[#d6b36a] px-8 py-4 text-sm font-black uppercase tracking-[0.15em] text-[#050706] transition hover:bg-[#e4c982]"
+          >
+            Book Assessment
+          </Link>
+        </motion.div>
       </div>
-
     </section>
   );
 }

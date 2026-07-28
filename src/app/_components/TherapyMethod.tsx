@@ -1,219 +1,143 @@
 "use client";
 
 import { motion } from "framer-motion";
-import {
-  Activity,
-  Brain,
-  HeartPulse,
-  Leaf,
-  Moon,
-  Wind,
+import { 
+  Video, 
+  BookOpen, 
+  Users, 
+  Heart,
+  Star,
+  ArrowRight,
+  CheckCircle
 } from "lucide-react";
 
 const methods = [
   {
-    number: "01",
-    icon: Activity,
-    title: "Clinical Assessment",
-    description:
-      "Understanding your health condition, lifestyle, breathing pattern, stress level and movement limitations before creating your therapy pathway.",
+    icon: Video,
+    title: "Live 1-on-1 Sessions",
+    description: "Connect with certified therapists via HD video for personalized sessions from anywhere in the world.",
+    badge: "Personal Care",
+    features: ["60-minute sessions", "Real-time feedback", "Personalized approach"],
+    color: "bg-[#d6b36a]/10"
   },
   {
-    number: "02",
-    icon: Wind,
-    title: "Breath Mapping",
-    description:
-      "Analyzing breathing patterns and applying pranayama-based regulation techniques to improve nervous system balance.",
+    icon: BookOpen,
+    title: "Custom Programs",
+    description: "Get a personalized therapy plan designed specifically for your unique health conditions and goals.",
+    badge: "Online",
+    features: ["Customized for you", "Track progress", "Flexible schedule"],
+    color: "bg-[#7bae8a]/10"
   },
   {
-    number: "03",
-    icon: HeartPulse,
-    title: "Therapeutic Movement",
-    description:
-      "Personalized yoga postures designed according to your body capacity, pain condition and functional requirements.",
-  },
-  {
-    number: "04",
-    icon: Brain,
-    title: "Mind Regulation",
-    description:
-      "Meditation, mindfulness and relaxation practices to support emotional balance and mental clarity.",
-  },
-  {
-    number: "05",
-    icon: Moon,
-    title: "Deep Restoration",
-    description:
-      "Yoga Nidra and recovery techniques to improve sleep quality, relaxation and inner awareness.",
-  },
-  {
-    number: "06",
-    icon: Leaf,
-    title: "Lifestyle Integration",
-    description:
-      "Creating sustainable daily routines combining yoga, nutrition awareness, habits and self-care practices.",
-  },
+    icon: Users,
+    title: "Community Support",
+    description: "Join a supportive community of practitioners and receive ongoing guidance and motivation.",
+    badge: "Community",
+    features: ["Group sessions", "Peer support", "Expert guidance"],
+    color: "bg-[#d6b36a]/10"
+  }
 ];
 
 export default function TherapyMethod() {
   return (
-    <section className="relative overflow-hidden bg-[#050706] px-6 py-24 text-[#f7efe0]">
-
-      {/* Background */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,#d6b36a15,transparent_35%)]" />
-
-      <div className="relative mx-auto max-w-7xl">
-
-        {/* Heading */}
+    <section className="py-20 bg-white">
+      <div className="container mx-auto max-w-7xl px-6">
+        {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
           transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="text-center max-w-3xl mx-auto mb-16"
         >
-          <p className="text-xs font-bold uppercase tracking-[0.4em] text-[#d6b36a]">
-            Our Therapeutic Method
-          </p>
-
-          <h2 className="mt-5 max-w-5xl text-[clamp(2.5rem,5vw,5rem)] font-black leading-[0.95] tracking-[-0.05em]">
-            Science of
-            <span className="text-[#d6b36a]">
-              {" "}
-              Breath, Body & Mind
-            </span>
+          <span className="inline-block rounded-full border border-[#e8e8e8] px-4 py-1.5 text-xs font-medium text-[#666666] uppercase tracking-wider">
+            How It Works
+          </span>
+          <h2 className="mt-4 text-3xl font-bold text-[#1a1a1a] md:text-4xl">
+            Our Therapy Method
           </h2>
-
-          <p className="mt-6 max-w-3xl text-lg leading-8 text-[#b8c4ba]">
-            A structured clinical yoga therapy framework combining traditional
-            yoga wisdom with modern wellness principles for sustainable health
-            transformation.
+          <p className="mt-4 text-lg text-[#666666]">
+            A holistic approach combining ancient wisdom with modern science
           </p>
         </motion.div>
 
-
-        {/* Method Cards */}
-        <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-
+        {/* Methods Grid */}
+        <div className="grid gap-8 md:grid-cols-3">
           {methods.map((method, index) => {
             const Icon = method.icon;
-
             return (
               <motion.div
-                key={method.number}
-                initial={{
-                  opacity: 0,
-                  y: 30,
-                }}
-                whileInView={{
-                  opacity: 1,
-                  y: 0,
-                }}
-                viewport={{
-                  once: true,
-                }}
-                transition={{
-                  delay: index * 0.08,
-                }}
-                whileHover={{
-                  y: -8,
-                }}
-                className="
-                group
-                rounded-[2rem]
-                border
-                border-white/10
-                bg-white/[0.035]
-                p-7
-                backdrop-blur
-                transition
-                hover:border-[#d6b36a]/40
-                hover:shadow-[0_0_60px_#d6b36a20]
-                "
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="group relative rounded-2xl border border-[#e8e8e8] bg-white p-8 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
               >
+                {/* Badge */}
+                <span className="absolute -top-3 left-6 rounded-full border border-[#d6b36a]/20 bg-[#fafafa] px-3 py-1 text-[10px] font-medium text-[#d6b36a] uppercase tracking-wider">
+                  {method.badge}
+                </span>
 
-                <div className="flex items-start justify-between">
-
-                  <div
-                    className="
-                    flex
-                    h-14
-                    w-14
-                    items-center
-                    justify-center
-                    rounded-2xl
-                    bg-[#d6b36a]/10
-                    text-[#d6b36a]
-                    transition
-                    group-hover:bg-[#d6b36a]
-                    group-hover:text-[#050706]
-                    "
-                  >
-                    <Icon className="h-7 w-7" />
-                  </div>
-
-
-                  <span className="text-5xl font-black text-white/5">
-                    {method.number}
-                  </span>
-
+                {/* Icon */}
+                <div className={`mb-4 inline-flex rounded-xl p-3 ${method.color}`}>
+                  <Icon className="h-6 w-6 text-[#d6b36a]" />
                 </div>
 
-
-                <h3 className="mt-8 text-2xl font-black tracking-tight text-white">
+                {/* Content */}
+                <h3 className="text-xl font-semibold text-[#1a1a1a]">
                   {method.title}
                 </h3>
-
-
-                <p className="mt-4 leading-7 text-[#b8c4ba]">
+                <p className="mt-2 text-sm text-[#666666] leading-relaxed">
                   {method.description}
                 </p>
 
+                {/* Features */}
+                <ul className="mt-4 space-y-2">
+                  {method.features.map((feature, i) => (
+                    <li key={i} className="flex items-center gap-2 text-sm text-[#666666]">
+                      <CheckCircle className="h-4 w-4 text-[#d6b36a]" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
 
-                <div className="mt-6 h-[2px] w-0 bg-[#d6b36a] transition-all duration-500 group-hover:w-full" />
-
+                {/* CTA */}
+                <a
+                  href="/booking"
+                  className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-[#d6b36a] transition-all hover:gap-3"
+                >
+                  Learn More
+                  <ArrowRight className="h-4 w-4" />
+                </a>
               </motion.div>
             );
           })}
-
         </div>
 
-
-        {/* Bottom Philosophy */}
+        {/* Bottom CTA */}
         <motion.div
-          initial={{ opacity:0 }}
-          whileInView={{opacity:1}}
-          viewport={{once:true}}
-          className="
-          mt-16
-          rounded-[3rem]
-          border
-          border-[#d6b36a]/20
-          bg-[#0c120e]
-          p-10
-          text-center
-          "
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          viewport={{ once: true }}
+          className="mt-16 rounded-3xl border border-[#d6b36a]/20 bg-[#fafafa] p-10 text-center md:p-16"
         >
-
-          <p className="text-2xl font-black tracking-tight text-white md:text-4xl">
-            Assessment →
-            <span className="text-[#d6b36a]">
-              {" "}
-              Regulation →
-            </span>
-            {" "}
-            Restoration
+          <h3 className="text-2xl font-bold text-[#1a1a1a] md:text-3xl">
+            Ready to Start Your Journey?
+          </h3>
+          <p className="mt-2 text-[#666666]">
+            Book your first session and begin your transformation today
           </p>
-
-          <p className="mx-auto mt-5 max-w-2xl text-[#b8c4ba]">
-            Every therapy journey follows a personalized process designed to
-            restore balance between body, breath and mind.
-          </p>
-
+          <a
+            href="/booking"
+            className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#1a1a1a] px-8 py-3.5 text-sm font-medium text-white transition-all hover:bg-[#333333] hover:-translate-y-0.5"
+          >
+            Book Assessment
+            <ArrowRight className="h-4 w-4" />
+          </a>
         </motion.div>
-
-
       </div>
-
     </section>
   );
 }

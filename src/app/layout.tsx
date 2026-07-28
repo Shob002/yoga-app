@@ -1,25 +1,23 @@
 import "~/styles/globals.css";
 
 import type { Metadata } from "next";
-import { Geist, Cormorant_Garamond } from "next/font/google";
+import { Inter, Cormorant_Garamond } from "next/font/google";
 
 import { TRPCReactProvider } from "~/trpc/react";
 
-
-const geist = Geist({
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-geist",
+  variable: "--font-inter",
   display: "swap",
+  weight: ["300", "400", "500", "600", "700"],
 });
-
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
   variable: "--font-serif",
-  weight: ["400", "500", "600", "700"],
   display: "swap",
+  weight: ["400", "500", "600", "700"],
 });
-
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://hayagrivayoga.com"),
@@ -30,37 +28,49 @@ export const metadata: Metadata = {
   },
 
   description:
-    "Premium clinical yoga therapy combining traditional yoga wisdom with modern wellness science. Online therapy for stress, pain, sleep, lifestyle disorders and holistic wellbeing.",
+    "Premium clinical yoga therapy combining traditional yoga wisdom with modern wellness science. Personalized therapy programs for stress, pain, sleep, lifestyle disorders and holistic wellbeing.",
 
   keywords: [
+    "Hayagriva Yoga",
     "Clinical Yoga Therapy",
+    "Yoga Therapy",
     "Online Yoga Therapy",
     "Yoga Therapist",
+    "Yoga Therapy India",
     "Pranayama",
     "Meditation",
     "Yoga Nidra",
     "Stress Management",
+    "Anxiety Management",
     "Back Pain Yoga",
     "PCOS Yoga",
-    "Lifestyle Disorder Management",
-    "Hayagriva Yoga",
+    "Sleep Disorders",
+    "Lifestyle Disorders",
+    "Wellness Programs",
   ],
 
   authors: [
     {
       name: "Hayagriva Yoga",
+      url: "https://hayagrivayoga.com",
     },
   ],
 
   creator: "Hayagriva Yoga",
+  publisher: "Hayagriva Yoga",
+
+  alternates: {
+    canonical: "https://hayagrivayoga.com",
+  },
 
   openGraph: {
     type: "website",
+    locale: "en_IN",
+    url: "https://hayagrivayoga.com",
+    siteName: "Hayagriva Yoga",
     title: "Hayagriva Yoga | Clinical Yoga Therapy",
     description:
-      "Personalized yoga therapy programs for body, breath and mind regulation.",
-    siteName: "Hayagriva Yoga",
-    url: "https://hayagrivayoga.com",
+      "Personalized clinical yoga therapy combining traditional yoga wisdom with modern wellness science.",
     images: [
       {
         url: "/og-image.jpg",
@@ -73,12 +83,10 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "Hayagriva Yoga",
+    title: "Hayagriva Yoga | Clinical Yoga Therapy",
     description:
-      "Evidence-based yoga therapy for holistic healing.",
-    images: [
-      "/og-image.jpg",
-    ],
+      "Evidence-informed yoga therapy for stress, pain, sleep, lifestyle disorders and holistic wellbeing.",
+    images: ["/og-image.jpg"],
   },
 
   icons: {
@@ -89,42 +97,42 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
 };
-
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   return (
     <html
       lang="en"
-      className={`${geist.variable} ${cormorant.variable}`}
+      className={`${inter.variable} ${cormorant.variable}`}
     >
-
       <body
         className="
-        min-h-screen
-        overflow-x-hidden
-        bg-[#050706]
-        text-[#f7efe0]
-        antialiased
-        selection:bg-[#d6b36a]
-        selection:text-[#050706]
+          min-h-screen
+          overflow-x-hidden
+          bg-[#050706]
+          text-[#f7efe0]
+          font-sans
+          antialiased
+          selection:bg-[#d6b36a]
+          selection:text-[#050706]
         "
       >
-
         <TRPCReactProvider>
-
           {children}
-
         </TRPCReactProvider>
-
       </body>
-
     </html>
   );
 }
