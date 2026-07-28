@@ -152,14 +152,6 @@ exports.Prisma.ContactMessageScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
-exports.Prisma.PostScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  createdById: 'createdById'
-};
-
 exports.Prisma.AccountScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -214,7 +206,6 @@ exports.Prisma.ModelName = {
   User: 'User',
   Booking: 'Booking',
   ContactMessage: 'ContactMessage',
-  Post: 'Post',
   Account: 'Account',
   Session: 'Session',
   VerificationToken: 'VerificationToken'
