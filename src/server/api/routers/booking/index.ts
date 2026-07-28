@@ -5,6 +5,8 @@ import {
   publicProcedure,
 } from "~/server/api/trpc";
 
+import { createZoomMeeting } from "~/server/services/zoom/client";
+
 export const bookingRouter = createTRPCRouter({
   create: publicProcedure
     .input(
@@ -19,17 +21,45 @@ export const bookingRouter = createTRPCRouter({
         message: z.string().optional(),
       }),
     )
-    .mutation(async ({ input }) => {
-      /*
-       * Add your Prisma booking creation here if your
-       * Prisma Booking model is already configured.
-       */
+    .mutation(async ({ input, ctx }) => {
+      // Use message as the service/therapy for now
+      const therapy =
+        input.message?.trim() || "Yoga Therapy Session";
 
-      console.log("New booking:", input);
+      // Create Zoom meeting
+      const zoomMeeting = await createZoomMeeting({
+        name: input.name,
+        therapy,
+        date: input.date,
+        time: input.time,
+        duration: 60,
+      });
 
+      // Save booking + Zoom details
+      const booking = await ctx.db.booking.create({
+        data: {
+          name: input.name,
+          email: input.email,
+          phone: input.phone,
+          service: therapy,
+          message: input.message ?? null,
+
+          status: "CONFIRMED",
+
+          zoomMeetingId: String(zoomMeeting.meetingId),
+          zoomJoinUrl: zoomMeeting.joinUrl,
+          zoomStartUrl: zoomMeeting.startUrl,
+        },
+      });
+
+      // Send result back to customer frontend
       return {
         success: true,
-        message: "Booking submitted successfully",
+        message: "Booking confirmed successfully",
+        bookingId: booking.id,
+        zoomJoinUrl: booking.zoomJoinUrl,
+        date: input.date,
+        time: input.time,
       };
     }),
 });
