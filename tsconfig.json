@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    /* Base Options */
+    "ignoreDeprecations": "6.0",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "target": "es2022",
@@ -10,17 +10,16 @@
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
 
-    /* Strictness */
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "checkJs": false,
 
-    /* Bundled Projects */
     "lib": [
       "dom",
       "dom.iterable",
       "ES2022"
     ],
+
     "noEmit": true,
     "module": "ESNext",
     "moduleResolution": "Bundler",
@@ -34,11 +33,6 @@
 
     "incremental": true,
 
-    /* Suppress TypeScript deprecation warnings */
-    "ignoreDeprecations": "6.0",
-
-    /* Path Aliases */
-    "baseUrl": ".",
     "paths": {
       "~/*": [
         "./src/*"
