@@ -5,7 +5,7 @@ import {
   protectedProcedure,
 } from "~/server/api/trpc";
 
-import { sendBookingConfirmation } from "~/server/services/email";
+import { sendBookingConfirmation } from "~/server/services/email/sendEmail";
 
 export const emailRouter = createTRPCRouter({
   test: protectedProcedure
