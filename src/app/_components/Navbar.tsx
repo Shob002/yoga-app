@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Menu, X, ChevronDown, ArrowRight } from "lucide-react";
 
 const menuItems = [
@@ -56,31 +57,30 @@ export default function Navbar() {
 
   return (
     <header className="fixed top-0 z-50 w-full border-b border-white/10 bg-[#050706]/85 backdrop-blur-2xl">
-      <nav className="mx-auto flex h-[76px] max-w-7xl items-center justify-between px-5 lg:px-6">
+      <nav className="mx-auto flex h-19 max-w-7xl items-center justify-between px-5 lg:px-6">
 
-        {/* LOGO */}
+        {/* =====================================================
+            HAYAGRIVA YOGA LOGO
+        ====================================================== */}
         <Link
           href="/"
           onClick={closeMenus}
-          className="group flex shrink-0 items-center gap-3"
+          className="group flex shrink-0 items-center"
+          aria-label="Hayagriva Yoga Home"
         >
-          <div className="flex h-11 w-11 items-center justify-center rounded-full border border-[#d6b36a]/40 bg-[#0d1511] transition duration-300 group-hover:border-[#d6b36a] group-hover:shadow-[0_0_30px_#d6b36a22]">
-            <span className="text-[23px] text-[#d6b36a]">ॐ</span>
-          </div>
-
-          <div className="leading-none">
-            <h1 className="text-[18px] font-black tracking-[-0.03em] text-[#f7efe0]">
-              Hayagriva
-              <span className="text-[#d6b36a]">Yoga</span>
-            </h1>
-
-            <p className="mt-1 text-[8px] font-bold uppercase tracking-[0.28em] text-[#7bae8a]">
-              Clinical Yoga Therapy
-            </p>
-          </div>
+          <Image
+            src="/images/hayagriva-yoga-logo.png"
+            alt="Hayagriva Yoga"
+            width={220}
+            height={60}
+            priority
+            className="h-12 w-auto object-contain transition duration-300 group-hover:scale-[1.03]"
+          />
         </Link>
 
-        {/* DESKTOP NAVIGATION */}
+        {/* =====================================================
+            DESKTOP NAVIGATION
+        ====================================================== */}
         <div className="hidden items-center gap-1 lg:flex">
 
           {/* HOME */}
@@ -102,10 +102,11 @@ export default function Navbar() {
                 className="flex items-center gap-1 rounded-full px-4 py-2.5 text-[13px] font-semibold text-white/70 transition hover:bg-white/5 hover:text-[#d6b36a]"
               >
                 {menu.title}
+
                 <ChevronDown className="h-3.5 w-3.5 transition group-hover:rotate-180" />
               </Link>
 
-              {/* DROPDOWN */}
+              {/* DESKTOP DROPDOWN */}
               <div className="pointer-events-none invisible absolute left-0 top-full w-72 pt-3 opacity-0 transition-all duration-200 group-hover:pointer-events-auto group-hover:visible group-hover:opacity-100">
                 <div className="rounded-2xl border border-white/10 bg-[#0b120e]/98 p-2 shadow-[0_20px_80px_#00000099] backdrop-blur-xl">
 
@@ -137,6 +138,7 @@ export default function Navbar() {
               className="flex items-center gap-1 rounded-full px-4 py-2.5 text-[13px] font-semibold text-white/70 transition hover:bg-white/5 hover:text-[#d6b36a]"
             >
               Resources
+
               <ChevronDown className="h-3.5 w-3.5 transition group-hover:rotate-180" />
             </Link>
 
@@ -179,7 +181,7 @@ export default function Navbar() {
             Contact
           </Link>
 
-          {/* BOOK */}
+          {/* START ASSESSMENT */}
           <Link
             href="/booking"
             className="ml-3 inline-flex items-center gap-2 rounded-full bg-[#d6b36a] px-5 py-3 text-[12px] font-black uppercase tracking-[0.12em] text-[#050706] shadow-[0_0_30px_#d6b36a22] transition hover:-translate-y-0.5 hover:shadow-[0_0_45px_#d6b36a55]"
@@ -189,7 +191,9 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* MOBILE BUTTON */}
+        {/* =====================================================
+            MOBILE MENU BUTTON
+        ====================================================== */}
         <button
           type="button"
           onClick={() => setMobileMenu(!mobileMenu)}
@@ -205,7 +209,9 @@ export default function Navbar() {
         </button>
       </nav>
 
-      {/* MOBILE NAVIGATION */}
+      {/* =====================================================
+          MOBILE NAVIGATION
+      ====================================================== */}
       {mobileMenu && (
         <div className="max-h-[calc(100vh-76px)] overflow-y-auto border-t border-white/10 bg-[#050706]/98 px-5 pb-8 pt-4 backdrop-blur-2xl lg:hidden">
 
@@ -235,13 +241,16 @@ export default function Navbar() {
 
                 <ChevronDown
                   className={`h-4 w-4 transition ${
-                    open === menu.title ? "rotate-180 text-[#d6b36a]" : ""
+                    open === menu.title
+                      ? "rotate-180 text-[#d6b36a]"
+                      : ""
                   }`}
                 />
               </button>
 
               {open === menu.title && (
                 <div className="pb-3 pl-3">
+
                   <Link
                     href={menu.href}
                     onClick={closeMenus}
@@ -265,12 +274,16 @@ export default function Navbar() {
             </div>
           ))}
 
-          {/* RESOURCES MOBILE */}
+          {/* RESOURCES */}
           <div className="border-b border-white/5">
             <button
               type="button"
               onClick={() =>
-                setOpen(open === "Resources" ? null : "Resources")
+                setOpen(
+                  open === "Resources"
+                    ? null
+                    : "Resources"
+                )
               }
               className="flex w-full items-center justify-between py-4 text-sm font-semibold text-white/80"
             >
@@ -287,6 +300,7 @@ export default function Navbar() {
 
             {open === "Resources" && (
               <div className="pb-3 pl-3">
+
                 <Link
                   href="/resources"
                   onClick={closeMenus}
@@ -300,7 +314,7 @@ export default function Navbar() {
                     key={item.label}
                     href={item.href}
                     onClick={closeMenus}
-                    className="block rounded-lg px-3 py-2.5 text-sm text-white/55"
+                    className="block rounded-lg px-3 py-2.5 text-sm text-white/55 transition hover:bg-white/5 hover:text-white"
                   >
                     {item.label}
                   </Link>
