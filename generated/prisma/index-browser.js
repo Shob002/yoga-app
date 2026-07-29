@@ -135,6 +135,8 @@ exports.Prisma.BookingScalarFieldEnum = {
   phone: 'phone',
   email: 'email',
   service: 'service',
+  date: 'date',
+  time: 'time',
   message: 'message',
   createdAt: 'createdAt',
   status: 'status',

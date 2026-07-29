@@ -2488,6 +2488,8 @@ export namespace Prisma {
     phone: string | null
     email: string | null
     service: string | null
+    date: string | null
+    time: string | null
     message: string | null
     createdAt: Date | null
     status: $Enums.BookingStatus | null
@@ -2502,6 +2504,8 @@ export namespace Prisma {
     phone: string | null
     email: string | null
     service: string | null
+    date: string | null
+    time: string | null
     message: string | null
     createdAt: Date | null
     status: $Enums.BookingStatus | null
@@ -2516,6 +2520,8 @@ export namespace Prisma {
     phone: number
     email: number
     service: number
+    date: number
+    time: number
     message: number
     createdAt: number
     status: number
@@ -2532,6 +2538,8 @@ export namespace Prisma {
     phone?: true
     email?: true
     service?: true
+    date?: true
+    time?: true
     message?: true
     createdAt?: true
     status?: true
@@ -2546,6 +2554,8 @@ export namespace Prisma {
     phone?: true
     email?: true
     service?: true
+    date?: true
+    time?: true
     message?: true
     createdAt?: true
     status?: true
@@ -2560,6 +2570,8 @@ export namespace Prisma {
     phone?: true
     email?: true
     service?: true
+    date?: true
+    time?: true
     message?: true
     createdAt?: true
     status?: true
@@ -2647,6 +2659,8 @@ export namespace Prisma {
     phone: string
     email: string | null
     service: string
+    date: string
+    time: string
     message: string | null
     createdAt: Date
     status: $Enums.BookingStatus
@@ -2678,6 +2692,8 @@ export namespace Prisma {
     phone?: boolean
     email?: boolean
     service?: boolean
+    date?: boolean
+    time?: boolean
     message?: boolean
     createdAt?: boolean
     status?: boolean
@@ -2692,6 +2708,8 @@ export namespace Prisma {
     phone?: boolean
     email?: boolean
     service?: boolean
+    date?: boolean
+    time?: boolean
     message?: boolean
     createdAt?: boolean
     status?: boolean
@@ -2706,6 +2724,8 @@ export namespace Prisma {
     phone?: boolean
     email?: boolean
     service?: boolean
+    date?: boolean
+    time?: boolean
     message?: boolean
     createdAt?: boolean
     status?: boolean
@@ -2720,6 +2740,8 @@ export namespace Prisma {
     phone?: boolean
     email?: boolean
     service?: boolean
+    date?: boolean
+    time?: boolean
     message?: boolean
     createdAt?: boolean
     status?: boolean
@@ -2728,7 +2750,7 @@ export namespace Prisma {
     zoomStartUrl?: boolean
   }
 
-  export type BookingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "phone" | "email" | "service" | "message" | "createdAt" | "status" | "zoomJoinUrl" | "zoomMeetingId" | "zoomStartUrl", ExtArgs["result"]["booking"]>
+  export type BookingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "phone" | "email" | "service" | "date" | "time" | "message" | "createdAt" | "status" | "zoomJoinUrl" | "zoomMeetingId" | "zoomStartUrl", ExtArgs["result"]["booking"]>
 
   export type $BookingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Booking"
@@ -2739,6 +2761,8 @@ export namespace Prisma {
       phone: string
       email: string | null
       service: string
+      date: string
+      time: string
       message: string | null
       createdAt: Date
       status: $Enums.BookingStatus
@@ -3173,6 +3197,8 @@ export namespace Prisma {
     readonly phone: FieldRef<"Booking", 'String'>
     readonly email: FieldRef<"Booking", 'String'>
     readonly service: FieldRef<"Booking", 'String'>
+    readonly date: FieldRef<"Booking", 'String'>
+    readonly time: FieldRef<"Booking", 'String'>
     readonly message: FieldRef<"Booking", 'String'>
     readonly createdAt: FieldRef<"Booking", 'DateTime'>
     readonly status: FieldRef<"Booking", 'BookingStatus'>
@@ -7798,6 +7824,8 @@ export namespace Prisma {
     phone: 'phone',
     email: 'email',
     service: 'service',
+    date: 'date',
+    time: 'time',
     message: 'message',
     createdAt: 'createdAt',
     status: 'status',
@@ -8028,6 +8056,8 @@ export namespace Prisma {
     phone?: StringFilter<"Booking"> | string
     email?: StringNullableFilter<"Booking"> | string | null
     service?: StringFilter<"Booking"> | string
+    date?: StringFilter<"Booking"> | string
+    time?: StringFilter<"Booking"> | string
     message?: StringNullableFilter<"Booking"> | string | null
     createdAt?: DateTimeFilter<"Booking"> | Date | string
     status?: EnumBookingStatusFilter<"Booking"> | $Enums.BookingStatus
@@ -8042,6 +8072,8 @@ export namespace Prisma {
     phone?: SortOrder
     email?: SortOrderInput | SortOrder
     service?: SortOrder
+    date?: SortOrder
+    time?: SortOrder
     message?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     status?: SortOrder
@@ -8059,6 +8091,8 @@ export namespace Prisma {
     phone?: StringFilter<"Booking"> | string
     email?: StringNullableFilter<"Booking"> | string | null
     service?: StringFilter<"Booking"> | string
+    date?: StringFilter<"Booking"> | string
+    time?: StringFilter<"Booking"> | string
     message?: StringNullableFilter<"Booking"> | string | null
     createdAt?: DateTimeFilter<"Booking"> | Date | string
     status?: EnumBookingStatusFilter<"Booking"> | $Enums.BookingStatus
@@ -8073,6 +8107,8 @@ export namespace Prisma {
     phone?: SortOrder
     email?: SortOrderInput | SortOrder
     service?: SortOrder
+    date?: SortOrder
+    time?: SortOrder
     message?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     status?: SortOrder
@@ -8093,6 +8129,8 @@ export namespace Prisma {
     phone?: StringWithAggregatesFilter<"Booking"> | string
     email?: StringNullableWithAggregatesFilter<"Booking"> | string | null
     service?: StringWithAggregatesFilter<"Booking"> | string
+    date?: StringWithAggregatesFilter<"Booking"> | string
+    time?: StringWithAggregatesFilter<"Booking"> | string
     message?: StringNullableWithAggregatesFilter<"Booking"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Booking"> | Date | string
     status?: EnumBookingStatusWithAggregatesFilter<"Booking"> | $Enums.BookingStatus
@@ -8419,6 +8457,8 @@ export namespace Prisma {
     phone: string
     email?: string | null
     service: string
+    date: string
+    time: string
     message?: string | null
     createdAt?: Date | string
     status?: $Enums.BookingStatus
@@ -8433,6 +8473,8 @@ export namespace Prisma {
     phone: string
     email?: string | null
     service: string
+    date: string
+    time: string
     message?: string | null
     createdAt?: Date | string
     status?: $Enums.BookingStatus
@@ -8447,6 +8489,8 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     service?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    time?: StringFieldUpdateOperationsInput | string
     message?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
@@ -8461,6 +8505,8 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     service?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    time?: StringFieldUpdateOperationsInput | string
     message?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
@@ -8475,6 +8521,8 @@ export namespace Prisma {
     phone: string
     email?: string | null
     service: string
+    date: string
+    time: string
     message?: string | null
     createdAt?: Date | string
     status?: $Enums.BookingStatus
@@ -8489,6 +8537,8 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     service?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    time?: StringFieldUpdateOperationsInput | string
     message?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
@@ -8503,6 +8553,8 @@ export namespace Prisma {
     phone?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     service?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    time?: StringFieldUpdateOperationsInput | string
     message?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
@@ -8939,6 +8991,8 @@ export namespace Prisma {
     phone?: SortOrder
     email?: SortOrder
     service?: SortOrder
+    date?: SortOrder
+    time?: SortOrder
     message?: SortOrder
     createdAt?: SortOrder
     status?: SortOrder
@@ -8953,6 +9007,8 @@ export namespace Prisma {
     phone?: SortOrder
     email?: SortOrder
     service?: SortOrder
+    date?: SortOrder
+    time?: SortOrder
     message?: SortOrder
     createdAt?: SortOrder
     status?: SortOrder
@@ -8967,6 +9023,8 @@ export namespace Prisma {
     phone?: SortOrder
     email?: SortOrder
     service?: SortOrder
+    date?: SortOrder
+    time?: SortOrder
     message?: SortOrder
     createdAt?: SortOrder
     status?: SortOrder

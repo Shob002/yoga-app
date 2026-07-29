@@ -25,12 +25,17 @@ model Booking {
   phone         String
   email         String?
   service       String
+  date          String
+  time          String
   message       String?
   createdAt     DateTime      @default(now())
   status        BookingStatus @default(PENDING)
   zoomJoinUrl   String?
   zoomMeetingId String?
   zoomStartUrl  String?
+
+  @@index([date, time])
+  @@index([status])
 }
 
 model ContactMessage {
