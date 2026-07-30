@@ -5,6 +5,7 @@ import {
   Phone,
   MapPin,
   ArrowUpRight,
+  LockKeyhole,
 } from "lucide-react";
 
 const footerLinks = {
@@ -144,6 +145,17 @@ export default function Footer() {
           <p className="mt-2">
             Clinical Yoga Therapy • Pranayama • Meditation • Wellness
           </p>
+
+          {/* Admin Login */}
+          <div className="mt-5 flex justify-center">
+            <Link
+              href="/admin/login"
+              className="group inline-flex items-center gap-2 rounded-full border border-white/5 px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.18em] text-[#526057] transition hover:border-[#d6b36a]/30 hover:text-[#d6b36a]"
+            >
+              <LockKeyhole className="h-3 w-3 transition group-hover:scale-110" />
+              Admin Login
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

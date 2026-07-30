@@ -1,9 +1,8 @@
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-
-import { createZoomMeeting } from "~/server/services/zoom/client";
 import { sendBookingConfirmation } from "~/server/services/email/sendEmail";
+import { createZoomMeeting } from "~/server/services/zoom/client";
 
 export const bookingRouter = createTRPCRouter({
   create: publicProcedure
@@ -23,7 +22,10 @@ export const bookingRouter = createTRPCRouter({
           .optional()
           .or(z.literal("")),
 
-        service: z.string().trim().min(2, "Please select a therapy service"),
+        service: z
+          .string()
+          .trim()
+          .min(2, "Please select a therapy service"),
 
         date: z.string().trim().min(1, "Date is required"),
 
@@ -32,104 +34,149 @@ export const bookingRouter = createTRPCRouter({
         message: z.string().trim().optional(),
       }),
     )
-
     .mutation(async ({ input, ctx }) => {
-      /*
-       * --------------------------------------------------
-       * 1. Clean incoming data
-       * --------------------------------------------------
-       */
+      const booking = await ctx.db.booking.create({
+        data: {
+          name: input.name.trim(),
+          phone: input.phone.trim(),
+          email: input.email?.trim() || null,
+          service: input.service.trim(),
+          date: input.date.trim(),
+          time: input.time.trim(),
+          message: input.message?.trim() || null,
+          status: "PENDING",
+        },
+      });
 
-      const name = input.name.trim();
-      const phone = input.phone.trim();
-      const email = input.email?.trim() || null;
-      const service = input.service.trim();
-      const date = input.date.trim();
-      const time = input.time.trim();
-      const message = input.message?.trim() || null;
+      return {
+        success: true,
+        message: "Your booking request has been submitted successfully.",
+        bookingId: booking.id,
+        status: booking.status,
+        date: booking.date,
+        time: booking.time,
+        service: booking.service,
+      };
+    }),
 
-      /*
-       * --------------------------------------------------
-       * 2. Create Zoom Yoga Therapy meeting
-       * --------------------------------------------------
-       */
+  list: publicProcedure.query(async ({ ctx }) => {
+    return ctx.db.booking.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+  }),
+
+  confirm: publicProcedure
+    .input(
+      z.object({
+        bookingId: z.string().min(1),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      const booking = await ctx.db.booking.findUnique({
+        where: {
+          id: input.bookingId,
+        },
+      });
+
+      if (!booking) {
+        throw new Error("Booking not found.");
+      }
+
+      if (booking.status !== "PENDING") {
+        throw new Error(
+          `This booking cannot be confirmed because its current status is ${booking.status}.`,
+        );
+      }
 
       const zoomMeeting = await createZoomMeeting({
-        name,
-        therapy: service,
-        date,
-        time,
+        name: booking.name,
+        therapy: booking.service,
+        date: booking.date,
+        time: booking.time,
         duration: 60,
       });
 
-      /*
-       * --------------------------------------------------
-       * 3. Save booking in PostgreSQL / Neon
-       * --------------------------------------------------
-       */
-
-      const booking = await ctx.db.booking.create({
+      const confirmedBooking = await ctx.db.booking.update({
+        where: {
+          id: booking.id,
+        },
         data: {
-          name,
-          phone,
-          email,
-          service,
-          date,
-          time,
-          message,
-
           status: "CONFIRMED",
-
           zoomMeetingId: String(zoomMeeting.meetingId),
           zoomJoinUrl: zoomMeeting.joinUrl,
           zoomStartUrl: zoomMeeting.startUrl,
         },
       });
 
-      /*
-       * --------------------------------------------------
-       * 4. Send confirmation email
-       * --------------------------------------------------
-       *
-       * Email failure should NOT delete a successful
-       * booking or Zoom meeting.
-       */
-
-      if (email) {
+      if (confirmedBooking.email) {
         try {
           await sendBookingConfirmation({
-            name: booking.name,
-            email,
-            service: booking.service,
-            date: booking.date,
-            time: booking.time,
-            zoomLink: booking.zoomJoinUrl ?? undefined,
+            name: confirmedBooking.name,
+            email: confirmedBooking.email,
+            service: confirmedBooking.service,
+            date: confirmedBooking.date,
+            time: confirmedBooking.time,
+            zoomLink: confirmedBooking.zoomJoinUrl ?? undefined,
           });
         } catch (error) {
-          console.error("Booking confirmation email failed:", error);
+          console.error(
+            "Booking confirmation email failed:",
+            error,
+          );
         }
       }
 
-      /*
-       * --------------------------------------------------
-       * 5. Return booking information to frontend
-       * --------------------------------------------------
-       */
+      return {
+        success: true,
+        message: "Booking confirmed successfully.",
+        bookingId: confirmedBooking.id,
+        status: confirmedBooking.status,
+        zoomJoinUrl: confirmedBooking.zoomJoinUrl,
+        date: confirmedBooking.date,
+        time: confirmedBooking.time,
+        service: confirmedBooking.service,
+      };
+    }),
+
+  reject: publicProcedure
+    .input(
+      z.object({
+        bookingId: z.string().min(1),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      const booking = await ctx.db.booking.findUnique({
+        where: {
+          id: input.bookingId,
+        },
+      });
+
+      if (!booking) {
+        throw new Error("Booking not found.");
+      }
+
+      if (booking.status !== "PENDING") {
+        throw new Error(
+          `This booking cannot be rejected because its current status is ${booking.status}.`,
+        );
+      }
+
+      const cancelledBooking = await ctx.db.booking.update({
+        where: {
+          id: booking.id,
+        },
+        data: {
+          status: "CANCELLED",
+        },
+      });
 
       return {
         success: true,
-
-        message: "Booking confirmed successfully",
-
-        bookingId: booking.id,
-
-        zoomJoinUrl: booking.zoomJoinUrl,
-
-        date: booking.date,
-
-        time: booking.time,
-
-        service: booking.service,
+        message: "Booking cancelled successfully.",
+        bookingId: cancelledBooking.id,
+        status: cancelledBooking.status,
       };
     }),
 });

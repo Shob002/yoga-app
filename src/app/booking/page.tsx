@@ -1,404 +1,519 @@
 "use client";
 
-import Link from "next/link";
+import Image from "next/image";
+import {
+  CalendarDays,
+  CheckCircle2,
+  Clock3,
+  Mail,
+  Phone,
+  Send,
+  UserRound,
+} from "lucide-react";
 import { useState } from "react";
+
 import { api } from "~/trpc/react";
 
-const therapyOptions = [
-  "Stress & Anxiety",
-  "Back Pain",
-  "Diabetes",
-  "Hypertension",
-  "PCOD",
-  "Insomnia",
-  "Weight Management",
-  "General Wellness",
-];
-
 export default function BookingPage() {
-
   const [form, setForm] = useState({
     name: "",
     phone: "",
     email: "",
-    service: "Stress & Anxiety",
+    service: "",
     date: "",
     time: "",
     message: "",
   });
 
+  const [submitted, setSubmitted] = useState(false);
 
-  const [zoomLink, setZoomLink] = useState<string | null>(null);
-
-
-  const bookingMutation = api.booking.create.useMutation({
-
-    onSuccess: (data) => {
-
-      setZoomLink(data.zoomJoinUrl);
+  const createBooking = api.booking.create.useMutation({
+    onSuccess: () => {
+      setSubmitted(true);
 
       setForm({
         name: "",
         phone: "",
         email: "",
-        service: "Stress & Anxiety",
+        service: "",
         date: "",
         time: "",
         message: "",
       });
-
     },
-
-
-    onError: (error) => {
-
-      alert(
-        "Booking failed: " + error.message
-      );
-
-    },
-
   });
 
-
-
-  function handleSubmit(
-    e: React.FormEvent<HTMLFormElement>
+  function handleChange(
+    event: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
   ) {
+    const { name, value } = event.target;
 
-    e.preventDefault();
-
-    bookingMutation.mutate(form);
-
+    setForm((current) => ({
+      ...current,
+      [name]: value,
+    }));
   }
 
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
 
+    createBooking.mutate({
+      name: form.name,
+      phone: form.phone,
+      email: form.email,
+      service: form.service,
+      date: form.date,
+      time: form.time,
+      message: form.message,
+    });
+  }
 
   return (
-
-    <main className="min-h-screen overflow-hidden bg-[#050706] px-6 py-10 text-[#f7efe0]">
-
-
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_10%,#d6b36a22,transparent_32%),radial-gradient(circle_at_80%_40%,#2d6b4b55,transparent_30%),linear-gradient(180deg,#050706,#0b120e_55%,#050706)]" />
-
-      <div className="temple-grid absolute inset-0 -z-10 opacity-35" />
-
-
-
-      <div className="mx-auto max-w-7xl">
-
-
-        <Link
-          href="/"
-          className="inline-flex rounded-full border border-white/10 bg-white/5 px-5 py-2 text-xs font-black uppercase tracking-[0.25em] text-[#d6b36a] backdrop-blur"
-        >
-          ← Home
-        </Link>
-
-
-
-        <section className="grid items-start gap-12 py-16 lg:grid-cols-[0.9fr_1.1fr]">
-
-
-
-          <div>
-
-
-            <p className="text-xs font-black uppercase tracking-[0.4em] text-[#d6b36a]">
-              Book Yoga Therapy
-            </p>
-
-
-
-            <h1 className="mt-5 max-w-3xl text-[clamp(3rem,7vw,7rem)] font-black leading-[0.9] tracking-[-0.065em]">
-
-              Begin your
-
-              <br />
-
-              <span className="text-[#d6b36a]">
-                healing
-              </span>
-
-              <br />
-
-              pathway.
-
-            </h1>
-
-
-
-            <p className="mt-8 max-w-xl text-base leading-8 text-[#b8c4ba]">
-
-              Share your condition, goal and preferred time.
-              Your yoga therapy session will be planned
-              according to your requirement.
-
-            </p>
-
-
-
-
-            <div className="mt-10 grid gap-4 sm:grid-cols-2">
-
-              {therapyOptions.map((item)=>(
-
-                <div
-                  key={item}
-                  className="rounded-3xl border border-white/10 bg-white/[0.035] p-5 text-sm font-black text-white backdrop-blur"
-                >
-
-                  {item}
-
-                </div>
-
-              ))}
-
-            </div>
-
-
-          </div>
-
-
-
-
-
-          <div className="rounded-[3rem] border border-[#d6b36a]/20 bg-[#0d1511]/90 p-6 shadow-[0_0_120px_#000] backdrop-blur md:p-10">
-
-
-            <p className="text-xs font-black uppercase tracking-[0.35em] text-[#d6b36a]">
-              Session Request
-            </p>
-
-
-
-            <h2 className="mt-4 text-3xl font-black text-white md:text-5xl">
-              Tell us what you need.
-            </h2>
-
-
-
-
-            {
-              zoomLink && (
-
-                <div className="mt-6 rounded-3xl border border-[#d6b36a]/30 bg-[#050706] p-6">
-
-                  <h3 className="font-black text-[#d6b36a]">
-                    Booking Confirmed ✅
-                  </h3>
-
-
-                  <p className="mt-3 text-sm text-white">
-                    Your Zoom Yoga Therapy Link:
-                  </p>
-
-
-                  <a
-                    href={zoomLink}
-                    target="_blank"
-                    className="mt-4 block break-all text-sm text-blue-400 underline"
-                  >
-                    {zoomLink}
-                  </a>
-
-
-                </div>
-
-              )
-            }
-
-
-
-
-
-            <form
-              onSubmit={handleSubmit}
-              className="mt-8 grid gap-5"
-            >
-
-
-
-              <input
-                required
-                placeholder="Full Name"
-                value={form.name}
-                onChange={(e)=>setForm({
-                  ...form,
-                  name:e.target.value
-                })}
-                className="rounded-2xl border border-white/10 bg-[#050706] px-5 py-4 text-white"
-              />
-
-
-
-
-              <input
-                required
-                type="tel"
-                placeholder="Mobile Number"
-                value={form.phone}
-                onChange={(e)=>setForm({
-                  ...form,
-                  phone:e.target.value
-                })}
-                className="rounded-2xl border border-white/10 bg-[#050706] px-5 py-4 text-white"
-              />
-
-
-
-
-
-              <input
-                type="email"
-                placeholder="Email (optional)"
-                value={form.email}
-                onChange={(e)=>setForm({
-                  ...form,
-                  email:e.target.value
-                })}
-                className="rounded-2xl border border-white/10 bg-[#050706] px-5 py-4 text-white"
-              />
-
-
-
-
-
-              <select
-
-                value={form.service}
-
-                onChange={(e)=>setForm({
-                  ...form,
-                  service:e.target.value
-                })}
-
-                className="rounded-2xl border border-white/10 bg-[#050706] px-5 py-4 text-white"
-
-              >
-
-                {therapyOptions.map(item=>(
-
-                  <option key={item}>
-                    {item}
-                  </option>
-
-                ))}
-
-              </select>
-
-
-
-
-
-
-              <div className="grid gap-5 md:grid-cols-2">
-
-
-                <input
-                  required
-                  type="date"
-                  value={form.date}
-                  onChange={(e)=>setForm({
-                    ...form,
-                    date:e.target.value
-                  })}
-                  className="rounded-2xl border border-white/10 bg-[#050706] px-5 py-4 text-white"
-                />
-
-
-
-                <input
-                  required
-                  type="time"
-                  value={form.time}
-                  onChange={(e)=>setForm({
-                    ...form,
-                    time:e.target.value
-                  })}
-                  className="rounded-2xl border border-white/10 bg-[#050706] px-5 py-4 text-white"
-                />
-
-
-              </div>
-
-
-
-
-
-
-              <textarea
-
-                rows={5}
-
-                placeholder="Symptoms / Goal"
-
-                value={form.message}
-
-                onChange={(e)=>setForm({
-                  ...form,
-                  message:e.target.value
-                })}
-
-                className="resize-none rounded-2xl border border-white/10 bg-[#050706] px-5 py-4 text-white"
-
-              />
-
-
-
-
-
-
-
-              <button
-
-                disabled={bookingMutation.isPending}
-
-                type="submit"
-
-                className="mt-3 rounded-full bg-[#d6b36a] px-8 py-5 text-sm font-black uppercase tracking-[0.25em] text-[#050706]"
-
-              >
-
-                {
-                  bookingMutation.isPending
-                  ?
-                  "Creating Zoom Session..."
-                  :
-                  "Submit Booking Request"
-                }
-
-
-              </button>
-
-
-
-
-
-
-              <p className="text-center text-xs text-[#87958b]">
-
-                Confirmation and Zoom details will be generated automatically.
-
+    <main className="min-h-screen bg-[#050706] px-4 py-8 text-[#f7efe0] sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-6xl">
+        {/* HEADER */}
+        <header className="mb-8 flex items-center justify-between border-b border-white/10 pb-6">
+          <div className="flex items-center gap-4">
+            <Image
+              src="/images/hayagriva-yoga-logo.png"
+              alt="Hayagriva Yoga"
+              width={190}
+              height={70}
+              priority
+              className="h-auto w-[150px] object-contain sm:w-[180px]"
+            />
+
+            <div className="hidden h-10 w-px bg-white/10 sm:block" />
+
+            <div className="hidden sm:block">
+              <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#7bae8a]">
+                Yoga Therapy
               </p>
 
-
-
-            </form>
-
-
-
+              <p className="mt-1 text-xs text-[#66746b]">
+                Book your consultation
+              </p>
+            </div>
           </div>
+        </header>
 
+        {/* SUCCESS */}
+        {submitted ? (
+          <section className="mx-auto max-w-2xl rounded-3xl border border-[#7bae8a]/20 bg-[#0b100d] p-8 text-center shadow-2xl sm:p-12">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#7bae8a]/10">
+              <CheckCircle2 className="h-8 w-8 text-[#7bae8a]" />
+            </div>
 
+            <p className="mt-6 text-xs font-bold uppercase tracking-[0.25em] text-[#7bae8a]">
+              Request Received
+            </p>
 
-        </section>
+            <h1 className="mt-3 text-3xl font-black text-[#f7efe0]">
+              Booking request submitted
+            </h1>
 
+            <p className="mx-auto mt-4 max-w-lg text-sm leading-7 text-[#8f9c94]">
+              Thank you for choosing Hayagriva Yoga. Your booking
+              request has been received successfully. We will review
+              your request and confirm your session shortly.
+            </p>
 
+            <button
+              type="button"
+              onClick={() => setSubmitted(false)}
+              className="mt-8 rounded-xl bg-[#d6b36a] px-6 py-3 text-xs font-bold text-[#050706] transition hover:bg-[#e2c47e]"
+            >
+              Book Another Session
+            </button>
+          </section>
+        ) : (
+          <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
+            {/* LEFT INFORMATION */}
+            <section className="rounded-3xl border border-white/10 bg-[#0b100d] p-6 shadow-2xl sm:p-8">
+              <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#7bae8a]">
+                Hayagriva Yoga
+              </p>
+
+              <h1 className="mt-3 text-3xl font-black leading-tight text-[#f7efe0] sm:text-4xl">
+                Begin your
+                <br />
+                wellness journey.
+              </h1>
+
+              <p className="mt-5 text-sm leading-7 text-[#8f9c94]">
+                Schedule a yoga therapy session designed around your
+                individual health goals, lifestyle and needs.
+              </p>
+
+              <div className="mt-8 space-y-4">
+                <InfoCard
+                  icon={<CalendarDays className="h-5 w-5" />}
+                  title="Personalised Therapy"
+                  description="Sessions are planned according to your individual needs."
+                />
+
+                <InfoCard
+                  icon={<Clock3 className="h-5 w-5" />}
+                  title="Online Consultation"
+                  description="Attend your session conveniently from wherever you are."
+                />
+
+                <InfoCard
+                  icon={<CheckCircle2 className="h-5 w-5" />}
+                  title="Professional Guidance"
+                  description="Receive structured guidance throughout your therapy journey."
+                />
+              </div>
+
+              <div className="mt-8 border-t border-white/10 pt-6">
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#526057]">
+                  What happens next?
+                </p>
+
+                <div className="mt-4 space-y-3">
+                  <Step number="01" text="Submit your booking request" />
+                  <Step number="02" text="Your request is reviewed" />
+                  <Step number="03" text="Session is confirmed" />
+                  <Step number="04" text="Receive your online session details" />
+                </div>
+              </div>
+            </section>
+
+            {/* BOOKING FORM */}
+            <section className="rounded-3xl border border-white/10 bg-[#0b100d] shadow-2xl">
+              <div className="border-b border-white/10 p-6 sm:p-8">
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#d6b36a]">
+                  Appointment Request
+                </p>
+
+                <h2 className="mt-2 text-2xl font-black text-[#f7efe0]">
+                  Book a session
+                </h2>
+
+                <p className="mt-2 text-sm text-[#66746b]">
+                  Fill in your details and preferred session time.
+                </p>
+              </div>
+
+              <form
+                onSubmit={handleSubmit}
+                className="space-y-6 p-6 sm:p-8"
+              >
+                {/* PERSONAL DETAILS */}
+                <div>
+                  <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.2em] text-[#526057]">
+                    Personal Details
+                  </p>
+
+                  <div className="grid gap-5 sm:grid-cols-2">
+                    <FormField
+                      label="Full Name"
+                      name="name"
+                      value={form.name}
+                      onChange={handleChange}
+                      placeholder="Your full name"
+                      icon={<UserRound className="h-4 w-4" />}
+                      required
+                    />
+
+                    <FormField
+                      label="Phone Number"
+                      name="phone"
+                      value={form.phone}
+                      onChange={handleChange}
+                      placeholder="+91 98765 43210"
+                      icon={<Phone className="h-4 w-4" />}
+                      required
+                    />
+
+                    <FormField
+                      label="Email Address"
+                      name="email"
+                      type="email"
+                      value={form.email}
+                      onChange={handleChange}
+                      placeholder="you@example.com"
+                      icon={<Mail className="h-4 w-4" />}
+                    />
+
+                    <div>
+                      <label
+                        htmlFor="service"
+                        className="mb-2 block text-xs font-semibold text-[#b8c4ba]"
+                      >
+                        Therapy Service
+                      </label>
+
+                      <select
+                        id="service"
+                        name="service"
+                        value={form.service}
+                        onChange={handleChange}
+                        required
+                        className="h-12 w-full rounded-xl border border-white/10 bg-[#050706] px-4 text-sm text-[#f7efe0] outline-none transition focus:border-[#d6b36a]/40 focus:ring-2 focus:ring-[#d6b36a]/10"
+                      >
+                        <option value="" className="bg-[#0b100d]">
+                          Select a service
+                        </option>
+
+                        <option
+                          value="Yoga Therapy"
+                          className="bg-[#0b100d]"
+                        >
+                          Yoga Therapy
+                        </option>
+
+                        <option
+                          value="Stress Management"
+                          className="bg-[#0b100d]"
+                        >
+                          Stress Management
+                        </option>
+
+                        <option
+                          value="Back Pain Relief"
+                          className="bg-[#0b100d]"
+                        >
+                          Back Pain Relief
+                        </option>
+
+                        <option
+                          value="Sleep Wellness"
+                          className="bg-[#0b100d]"
+                        >
+                          Sleep Wellness
+                        </option>
+
+                        <option
+                          value="Weight Management"
+                          className="bg-[#0b100d]"
+                        >
+                          Weight Management
+                        </option>
+
+                        <option
+                          value="Women's Wellness"
+                          className="bg-[#0b100d]"
+                        >
+                          Women's Wellness
+                        </option>
+
+                        <option
+                          value="Stress & Anxiety"
+                          className="bg-[#0b100d]"
+                        >
+                          Stress & Anxiety
+                        </option>
+
+                        <option
+                          value="Other"
+                          className="bg-[#0b100d]"
+                        >
+                          Other
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                {/* APPOINTMENT */}
+                <div className="border-t border-white/10 pt-6">
+                  <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.2em] text-[#526057]">
+                    Preferred Appointment
+                  </p>
+
+                  <div className="grid gap-5 sm:grid-cols-2">
+                    <FormField
+                      label="Preferred Date"
+                      name="date"
+                      type="date"
+                      value={form.date}
+                      onChange={handleChange}
+                      required
+                    />
+
+                    <FormField
+                      label="Preferred Time"
+                      name="time"
+                      type="time"
+                      value={form.time}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                </div>
+
+                {/* MESSAGE */}
+                <div className="border-t border-white/10 pt-6">
+                  <label
+                    htmlFor="message"
+                    className="mb-2 block text-xs font-semibold text-[#b8c4ba]"
+                  >
+                    Health Concern / Goal
+                  </label>
+
+                  <textarea
+                    id="message"
+                    name="message"
+                    value={form.message}
+                    onChange={handleChange}
+                    rows={5}
+                    placeholder="Briefly tell us about your concern, symptoms or wellness goal..."
+                    className="w-full resize-none rounded-xl border border-white/10 bg-[#050706] px-4 py-3 text-sm leading-6 text-[#f7efe0] outline-none transition placeholder:text-[#526057] focus:border-[#d6b36a]/40 focus:ring-2 focus:ring-[#d6b36a]/10"
+                  />
+                </div>
+
+                {/* ERROR */}
+                {createBooking.isError && (
+                  <div className="rounded-xl border border-red-400/20 bg-red-400/5 px-4 py-3">
+                    <p className="text-xs leading-5 text-red-300">
+                      {createBooking.error.message ||
+                        "Unable to submit your booking. Please try again."}
+                    </p>
+                  </div>
+                )}
+
+                {/* SUBMIT */}
+                <button
+                  type="submit"
+                  disabled={createBooking.isPending}
+                  className="flex h-13 w-full items-center justify-center gap-2 rounded-xl bg-[#d6b36a] px-5 py-4 text-sm font-black text-[#050706] transition hover:bg-[#e2c47e] disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {createBooking.isPending ? (
+                    <>
+                      <span className="h-4 w-4 animate-spin rounded-full border-2 border-[#050706]/30 border-t-[#050706]" />
+                      Submitting Request...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="h-4 w-4" />
+                      Submit Booking Request
+                    </>
+                  )}
+                </button>
+
+                <p className="text-center text-[10px] leading-5 text-[#526057]">
+                  Your request will initially be marked as pending.
+                  <br />
+                  You will receive confirmation after your appointment
+                  is reviewed.
+                </p>
+              </form>
+            </section>
+          </div>
+        )}
+
+        {/* FOOTER */}
+        <footer className="py-8 text-center">
+          <p className="text-[10px] uppercase tracking-[0.2em] text-[#526057]">
+            © {new Date().getFullYear()} Hayagriva Yoga
+          </p>
+        </footer>
+      </div>
+    </main>
+  );
+}
+
+function FormField({
+  label,
+  name,
+  value,
+  onChange,
+  placeholder,
+  type = "text",
+  icon,
+  required = false,
+}: {
+  label: string;
+  name: string;
+  value: string;
+  onChange: (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => void;
+  placeholder?: string;
+  type?: string;
+  icon?: React.ReactNode;
+  required?: boolean;
+}) {
+  return (
+    <div>
+      <label
+        htmlFor={name}
+        className="mb-2 block text-xs font-semibold text-[#b8c4ba]"
+      >
+        {label}
+      </label>
+
+      <div className="relative">
+        {icon && (
+          <div className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[#526057]">
+            {icon}
+          </div>
+        )}
+
+        <input
+          id={name}
+          name={name}
+          type={type}
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+          required={required}
+          className={`h-12 w-full rounded-xl border border-white/10 bg-[#050706] pr-4 text-sm text-[#f7efe0] outline-none transition placeholder:text-[#526057] focus:border-[#d6b36a]/40 focus:ring-2 focus:ring-[#d6b36a]/10 ${
+            icon ? "pl-11" : "pl-4"
+          }`}
+        />
+      </div>
+    </div>
+  );
+}
+
+function InfoCard({
+  icon,
+  title,
+  description,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+}) {
+  return (
+    <div className="flex gap-4 rounded-2xl border border-white/5 bg-white/[0.02] p-4">
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#7bae8a]/10 text-[#7bae8a]">
+        {icon}
       </div>
 
+      <div>
+        <h3 className="text-sm font-bold text-[#e8e1d5]">
+          {title}
+        </h3>
 
-    </main>
+        <p className="mt-1 text-xs leading-5 text-[#66746b]">
+          {description}
+        </p>
+      </div>
+    </div>
+  );
+}
 
+function Step({
+  number,
+  text,
+}: {
+  number: string;
+  text: string;
+}) {
+  return (
+    <div className="flex items-center gap-3">
+      <span className="font-mono text-[10px] font-bold text-[#d6b36a]">
+        {number}
+      </span>
+
+      <span className="text-xs text-[#8f9c94]">
+        {text}
+      </span>
+    </div>
   );
 }

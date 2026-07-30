@@ -3,47 +3,103 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X, ChevronDown, ArrowRight } from "lucide-react";
+import {
+  Menu,
+  X,
+  ChevronDown,
+  ArrowRight,
+} from "lucide-react";
 
 const menuItems = [
   {
     title: "Yoga Therapy",
     href: "/#therapy",
     items: [
-      { label: "Clinical Approach", href: "/#therapy" },
-      { label: "Assessment Method", href: "/#journey" },
-      { label: "Breath Science", href: "/#therapy" },
-      { label: "Evidence Based Therapy", href: "/#therapy" },
+      {
+        label: "Clinical Approach",
+        href: "/#therapy",
+      },
+      {
+        label: "Assessment Method",
+        href: "/#journey",
+      },
+      {
+        label: "Breath Science",
+        href: "/#therapy",
+      },
+      {
+        label: "Evidence Based Therapy",
+        href: "/#therapy",
+      },
     ],
   },
   {
     title: "Conditions",
     href: "/#conditions",
     items: [
-      { label: "Stress & Anxiety", href: "/#conditions" },
-      { label: "Back Pain", href: "/#conditions" },
-      { label: "Diabetes", href: "/#conditions" },
-      { label: "PCOS / Women's Wellness", href: "/#conditions" },
-      { label: "Sleep Disorders", href: "/#conditions" },
+      {
+        label: "Stress & Anxiety",
+        href: "/#conditions",
+      },
+      {
+        label: "Back Pain",
+        href: "/#conditions",
+      },
+      {
+        label: "Diabetes",
+        href: "/#conditions",
+      },
+      {
+        label: "PCOS / Women's Wellness",
+        href: "/#conditions",
+      },
+      {
+        label: "Sleep Disorders",
+        href: "/#conditions",
+      },
     ],
   },
   {
     title: "Programs",
     href: "/#programs",
     items: [
-      { label: "14 Day Stress Reset", href: "/#programs" },
-      { label: "30 Day Transformation", href: "/#programs" },
-      { label: "Personal Therapy", href: "/#programs" },
-      { label: "Corporate Wellness", href: "/#programs" },
+      {
+        label: "14 Day Stress Reset",
+        href: "/#programs",
+      },
+      {
+        label: "30 Day Transformation",
+        href: "/#programs",
+      },
+      {
+        label: "Personal Therapy",
+        href: "/#programs",
+      },
+      {
+        label: "Corporate Wellness",
+        href: "/#programs",
+      },
     ],
   },
 ];
 
 const resourceItems = [
-  { label: "Articles", href: "/resources/articles" },
-  { label: "Research", href: "/resources/research" },
-  { label: "Pranayama Library", href: "/resources/pranayama" },
-  { label: "Wellness Guides", href: "/resources/guides" },
+  {
+    label: "Articles",
+    href: "/resources/articles",
+  },
+  {
+    label: "Research",
+    href: "/resources/research",
+  },
+  {
+    label: "Pranayama Library",
+    href: "/resources/pranayama",
+  },
+  {
+    label: "Wellness Guides",
+    href: "/resources/guides",
+  },
 ];
 
 export default function Navbar() {
@@ -57,11 +113,12 @@ export default function Navbar() {
 
   return (
     <header className="fixed top-0 z-50 w-full border-b border-white/10 bg-[#050706]/85 backdrop-blur-2xl">
-      <nav className="mx-auto flex h-19 max-w-7xl items-center justify-between px-5 lg:px-6">
+      <nav className="mx-auto flex h-[76px] max-w-7xl items-center justify-between px-5 lg:px-6">
 
         {/* =====================================================
             HAYAGRIVA YOGA LOGO
         ====================================================== */}
+
         <Link
           href="/"
           onClick={closeMenus}
@@ -81,9 +138,11 @@ export default function Navbar() {
         {/* =====================================================
             DESKTOP NAVIGATION
         ====================================================== */}
+
         <div className="hidden items-center gap-1 lg:flex">
 
           {/* HOME */}
+
           <Link
             href="/"
             className="rounded-full px-4 py-2.5 text-[13px] font-semibold text-white/70 transition hover:bg-white/5 hover:text-[#d6b36a]"
@@ -92,6 +151,7 @@ export default function Navbar() {
           </Link>
 
           {/* YOGA THERAPY / CONDITIONS / PROGRAMS */}
+
           {menuItems.map((menu) => (
             <div
               key={menu.title}
@@ -107,6 +167,7 @@ export default function Navbar() {
               </Link>
 
               {/* DESKTOP DROPDOWN */}
+
               <div className="pointer-events-none invisible absolute left-0 top-full w-72 pt-3 opacity-0 transition-all duration-200 group-hover:pointer-events-auto group-hover:visible group-hover:opacity-100">
                 <div className="rounded-2xl border border-white/10 bg-[#0b120e]/98 p-2 shadow-[0_20px_80px_#00000099] backdrop-blur-xl">
 
@@ -132,6 +193,7 @@ export default function Navbar() {
           ))}
 
           {/* RESOURCES */}
+
           <div className="group relative">
             <Link
               href="/resources"
@@ -166,6 +228,7 @@ export default function Navbar() {
           </div>
 
           {/* THERAPISTS */}
+
           <Link
             href="/therapists"
             className="rounded-full px-4 py-2.5 text-[13px] font-semibold text-white/70 transition hover:bg-white/5 hover:text-[#d6b36a]"
@@ -174,6 +237,7 @@ export default function Navbar() {
           </Link>
 
           {/* CONTACT */}
+
           <Link
             href="/contact"
             className="rounded-full px-4 py-2.5 text-[13px] font-semibold text-white/70 transition hover:bg-white/5 hover:text-[#d6b36a]"
@@ -181,12 +245,16 @@ export default function Navbar() {
             Contact
           </Link>
 
-          {/* START ASSESSMENT */}
+          {/* =================================================
+              PRIMARY CTA
+          ================================================== */}
+
           <Link
             href="/booking"
             className="ml-3 inline-flex items-center gap-2 rounded-full bg-[#d6b36a] px-5 py-3 text-[12px] font-black uppercase tracking-[0.12em] text-[#050706] shadow-[0_0_30px_#d6b36a22] transition hover:-translate-y-0.5 hover:shadow-[0_0_45px_#d6b36a55]"
           >
-            Start Assessment
+            Book Consultation
+
             <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </div>
@@ -194,11 +262,16 @@ export default function Navbar() {
         {/* =====================================================
             MOBILE MENU BUTTON
         ====================================================== */}
+
         <button
           type="button"
           onClick={() => setMobileMenu(!mobileMenu)}
           className="rounded-xl border border-white/10 bg-white/5 p-2.5 text-[#f7efe0] lg:hidden"
-          aria-label={mobileMenu ? "Close navigation" : "Open navigation"}
+          aria-label={
+            mobileMenu
+              ? "Close navigation"
+              : "Open navigation"
+          }
           aria-expanded={mobileMenu}
         >
           {mobileMenu ? (
@@ -212,10 +285,12 @@ export default function Navbar() {
       {/* =====================================================
           MOBILE NAVIGATION
       ====================================================== */}
+
       {mobileMenu && (
         <div className="max-h-[calc(100vh-76px)] overflow-y-auto border-t border-white/10 bg-[#050706]/98 px-5 pb-8 pt-4 backdrop-blur-2xl lg:hidden">
 
           {/* HOME */}
+
           <Link
             href="/"
             onClick={closeMenus}
@@ -225,6 +300,7 @@ export default function Navbar() {
           </Link>
 
           {/* MOBILE DROPDOWNS */}
+
           {menuItems.map((menu) => (
             <div
               key={menu.title}
@@ -233,7 +309,11 @@ export default function Navbar() {
               <button
                 type="button"
                 onClick={() =>
-                  setOpen(open === menu.title ? null : menu.title)
+                  setOpen(
+                    open === menu.title
+                      ? null
+                      : menu.title,
+                  )
                 }
                 className="flex w-full items-center justify-between py-4 text-sm font-semibold text-white/80"
               >
@@ -275,6 +355,7 @@ export default function Navbar() {
           ))}
 
           {/* RESOURCES */}
+
           <div className="border-b border-white/5">
             <button
               type="button"
@@ -282,7 +363,7 @@ export default function Navbar() {
                 setOpen(
                   open === "Resources"
                     ? null
-                    : "Resources"
+                    : "Resources",
                 )
               }
               className="flex w-full items-center justify-between py-4 text-sm font-semibold text-white/80"
@@ -324,6 +405,7 @@ export default function Navbar() {
           </div>
 
           {/* THERAPISTS */}
+
           <Link
             href="/therapists"
             onClick={closeMenus}
@@ -333,6 +415,7 @@ export default function Navbar() {
           </Link>
 
           {/* CONTACT */}
+
           <Link
             href="/contact"
             onClick={closeMenus}
@@ -341,13 +424,17 @@ export default function Navbar() {
             Contact
           </Link>
 
-          {/* MOBILE CTA */}
+          {/* =================================================
+              MOBILE CTA
+          ================================================== */}
+
           <Link
             href="/booking"
             onClick={closeMenus}
             className="mt-5 flex items-center justify-center gap-2 rounded-full bg-[#d6b36a] px-6 py-4 text-sm font-black uppercase tracking-[0.12em] text-[#050706]"
           >
-            Start Assessment
+            Book Consultation
+
             <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
