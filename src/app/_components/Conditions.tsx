@@ -348,45 +348,6 @@ export default function Conditions() {
           </div>
         </div>
       </div>
-
-      {/* Footer */}
-      <footer className="relative border-t border-white/10 px-6 py-10">
-        <div className="mx-auto flex max-w-7xl flex-col justify-between gap-5 text-sm text-white/40 md:flex-row md:items-center">
-          <p>
-            © {new Date().getFullYear()} Hayagriva Yoga. All rights reserved.
-          </p>
-
-          <div className="flex flex-wrap gap-5">
-            <Link
-              href="/"
-              className="transition hover:text-[#d6b36a]"
-            >
-              Home
-            </Link>
-
-            <Link
-              href="/therapists"
-              className="transition hover:text-[#d6b36a]"
-            >
-              Therapists
-            </Link>
-
-            <Link
-              href="/contact"
-              className="transition hover:text-[#d6b36a]"
-            >
-              Contact
-            </Link>
-
-            <Link
-              href="/booking"
-              className="transition hover:text-[#d6b36a]"
-            >
-              Assessment
-            </Link>
-          </div>
-        </div>
-      </footer>
     </section>
   );
 }

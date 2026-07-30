@@ -1,151 +1,198 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { 
-  Calendar, 
-  User, 
-  Heart, 
-  Sparkles,
+import Link from "next/link";
+import {
   ArrowRight,
-  CheckCircle,
-  Clock,
-  Video,
+  Calendar,
   FileText,
-  Users
+  Heart,
+  Video,
 } from "lucide-react";
 
 const journeySteps = [
   {
     icon: Calendar,
-    title: "Book Your Session",
-    description: "Choose a time that works for you and book your first session with a certified therapist.",
+    number: "01",
+    title: "Book a Consultation",
+    description:
+      "Choose a convenient date and time for your initial consultation with a yoga therapy professional.",
   },
   {
     icon: FileText,
+    number: "02",
     title: "Health Assessment",
-    description: "Complete a detailed health assessment to help us understand your unique needs and goals.",
+    description:
+      "Discuss your health concerns, lifestyle, symptoms and goals so your therapist can understand your individual needs.",
   },
   {
     icon: Video,
-    title: "Live Therapy Session",
-    description: "Connect with your therapist via HD video for a personalized 1-on-1 session.",
+    number: "03",
+    title: "Personalised Therapy",
+    description:
+      "Receive a structured yoga therapy approach including appropriate practices, breathing techniques and lifestyle guidance.",
   },
   {
     icon: Heart,
-    title: "Ongoing Support",
-    description: "Receive personalized guidance, track your progress, and adjust your program as you heal.",
+    number: "04",
+    title: "Guided Progress",
+    description:
+      "Continue with regular sessions and personalised guidance while your practices are adjusted according to your progress.",
   },
 ];
 
-const stats = [
-  { number: "94%", label: "Report Improvement" },
-  { number: "2,500+", label: "Happy Clients" },
-  { number: "4.9/5", label: "Average Rating" },
+const highlights = [
+  {
+    value: "1-on-1",
+    label: "Personalised Guidance",
+  },
+  {
+    value: "Online",
+    label: "Therapy Sessions",
+  },
+  {
+    value: "Evidence",
+    label: "Informed Approach",
+  },
 ];
 
 export default function TherapyJourney() {
   return (
-    <section className="section bg-white">
-      <div className="container">
+    <section
+      id="journey"
+      className="relative overflow-hidden bg-white py-24 text-[#1a1a1a] md:py-32"
+    >
+      {/* Subtle background decoration */}
+      <div className="pointer-events-none absolute -left-40 top-20 h-80 w-80 rounded-full bg-[#d6b36a]/10 blur-3xl" />
+      <div className="pointer-events-none absolute -right-40 bottom-20 h-96 w-96 rounded-full bg-[#7bae8a]/10 blur-3xl" />
+
+      <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
         {/* Header */}
-        <div className="mx-auto max-w-3xl text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <span className="inline-block rounded-full border border-[#e8e8e8] px-4 py-1.5 text-xs font-medium text-[#666666] uppercase tracking-wider">
-              How It Works
+        <motion.div
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true, amount: 0.2 }}
+          className="mx-auto max-w-3xl text-center"
+        >
+          <span className="inline-flex items-center rounded-full border border-[#d6b36a]/30 bg-[#d6b36a]/5 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-[#8d7135]">
+            How Yoga Therapy Works
+          </span>
+
+          <h2 className="mt-6 text-4xl font-black leading-tight tracking-tight text-[#151815] md:text-5xl lg:text-6xl">
+            Your Journey
+            <span className="block text-[#8d7135]">
+              Towards Better Wellbeing
             </span>
-            <h2 className="mt-4 text-3xl font-bold text-[#1a1a1a] md:text-4xl">
-              Your Journey to Wellness
-            </h2>
-            <p className="mt-4 text-lg text-[#666666]">
-              Four simple steps to start your healing journey with expert guidance
-            </p>
-          </motion.div>
-        </div>
+          </h2>
+
+          <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-[#666] md:text-lg">
+            A structured and personalised journey that begins with
+            understanding your needs and continues with guided yoga therapy
+            practices designed around your individual goals.
+          </p>
+        </motion.div>
 
         {/* Journey Steps */}
-        <div className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-          {journeySteps.map((step, index) => {
-            const Icon = step.icon;
-            return (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="relative group"
-              >
-                {/* Step Number */}
-                <div className="absolute -top-3 -left-3 flex h-8 w-8 items-center justify-center rounded-full bg-[#d6b36a] text-sm font-bold text-white">
-                  {index + 1}
-                </div>
+        <div className="relative mt-20">
+          {/* Desktop connector */}
+          <div className="absolute left-[12.5%] right-[12.5%] top-[54px] hidden h-px bg-[#e8e4d9] lg:block" />
 
-                {/* Card */}
-                <div className="rounded-xl border border-[#e8e8e8] bg-white p-8 transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-                  <div className="mb-4 inline-flex rounded-xl bg-[#fafafa] p-3">
-                    <Icon className="h-6 w-6 text-[#d6b36a]" />
-                  </div>
-                  <h3 className="text-lg font-semibold text-[#1a1a1a]">
-                    {step.title}
-                  </h3>
-                  <p className="mt-2 text-sm text-[#666666] leading-relaxed">
-                    {step.description}
-                  </p>
-                </div>
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+            {journeySteps.map((step, index) => {
+              const Icon = step.icon;
 
-                {/* Connector Line */}
-                {index < journeySteps.length - 1 && (
-                  <div className="hidden lg:block absolute top-1/2 -right-4 h-0.5 w-8 bg-[#e8e8e8]">
-                    <div className="absolute right-0 top-1/2 h-2 w-2 -translate-y-1/2 rotate-45 border-r-2 border-t-2 border-[#e8e8e8]" />
+              return (
+                <motion.div
+                  key={step.number}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: 0.55,
+                    delay: index * 0.1,
+                  }}
+                  viewport={{ once: true, amount: 0.15 }}
+                  className="group relative"
+                >
+                  {/* Number */}
+                  <div className="relative z-10 mx-auto flex h-[108px] w-[108px] items-center justify-center rounded-full border border-[#d6b36a]/30 bg-white shadow-[0_10px_40px_rgba(0,0,0,0.06)] transition duration-300 group-hover:border-[#d6b36a] group-hover:shadow-[0_15px_45px_rgba(214,179,106,0.18)]">
+                    <div className="flex h-[76px] w-[76px] flex-col items-center justify-center rounded-full bg-[#faf8f2]">
+                      <Icon className="h-6 w-6 text-[#a5833c]" />
+
+                      <span className="mt-1 text-[10px] font-black tracking-widest text-[#999]">
+                        {step.number}
+                      </span>
+                    </div>
                   </div>
-                )}
-              </motion.div>
-            );
-          })}
+
+                  {/* Card */}
+                  <div className="mt-8 rounded-2xl border border-[#e9e9e9] bg-white p-7 text-center transition duration-300 group-hover:-translate-y-1 group-hover:border-[#d6b36a]/40 group-hover:shadow-[0_20px_50px_rgba(0,0,0,0.07)]">
+                    <h3 className="text-xl font-bold text-[#1a1a1a]">
+                      {step.title}
+                    </h3>
+
+                    <p className="mt-4 text-sm leading-7 text-[#707070]">
+                      {step.description}
+                    </p>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
 
-        {/* Stats Section */}
+        {/* Highlights */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          viewport={{ once: true }}
-          className="mt-20 rounded-2xl border border-[#e8e8e8] bg-[#fafafa] p-8 md:p-12"
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true, amount: 0.2 }}
+          className="mt-20 overflow-hidden rounded-3xl border border-[#e8e5dc] bg-[#faf9f5]"
         >
-          <div className="grid gap-8 md:grid-cols-3">
-            {stats.map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="text-3xl font-bold text-[#1a1a1a]">
-                  {stat.number}
+          <div className="grid md:grid-cols-3">
+            {highlights.map((item, index) => (
+              <div
+                key={item.label}
+                className={`px-8 py-9 text-center ${
+                  index !== highlights.length - 1
+                    ? "border-b border-[#e5e2d9] md:border-b-0 md:border-r"
+                    : ""
+                }`}
+              >
+                <div className="text-3xl font-black tracking-tight text-[#8d7135] md:text-4xl">
+                  {item.value}
                 </div>
-                <div className="mt-1 text-sm text-[#666666]">
-                  {stat.label}
+
+                <div className="mt-2 text-sm font-medium text-[#666]">
+                  {item.label}
                 </div>
               </div>
             ))}
           </div>
         </motion.div>
 
-        {/* CTA */}
+        {/* Bottom Information */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
           viewport={{ once: true }}
-          className="mt-12 text-center"
+          className="mx-auto mt-16 max-w-3xl text-center"
         >
-          <a
+          <p className="text-sm leading-7 text-[#777] md:text-base">
+            Yoga therapy is personalised to the individual. Your therapist
+            will guide you through practices appropriate to your assessment,
+            needs and current level of experience.
+          </p>
+
+          <Link
             href="/booking"
-            className="inline-flex items-center gap-2 rounded-full bg-[#1a1a1a] px-8 py-3.5 text-sm font-medium text-white transition-all hover:bg-[#333333] hover:-translate-y-0.5"
+            className="group mt-8 inline-flex items-center gap-3 rounded-full bg-[#1a1a1a] px-8 py-4 text-sm font-bold text-white transition duration-300 hover:-translate-y-1 hover:bg-[#2b2b2b] hover:shadow-[0_15px_35px_rgba(0,0,0,0.15)]"
           >
-            Start Your Journey
-            <ArrowRight className="h-4 w-4" />
-          </a>
+            Book Your Consultation
+
+            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+          </Link>
         </motion.div>
       </div>
     </section>

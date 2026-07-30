@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import {
   Globe,
@@ -38,27 +39,27 @@ export default function Footer() {
   return (
     <footer className="border-t border-white/10 bg-[#050706] text-[#f7efe0]">
       <div className="mx-auto max-w-7xl px-6 py-16">
-        {/* Top Section */}
-        <div className="grid gap-12 md:grid-cols-4">
-          {/* Brand */}
+        {/* =====================================================
+            TOP SECTION
+        ====================================================== */}
+        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
+          {/* =====================================================
+              BRAND
+          ====================================================== */}
           <div>
-            <Link href="/" className="flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-linear-to-br from-[#d6b36a] to-[#7bae8a]">
-                <span className="text-2xl font-bold text-[#050706]">
-                  ॐ
-                </span>
-              </div>
-
-              <div>
-                <h2 className="text-xl font-black">
-                  Hayagriva
-                  <span className="text-[#d6b36a]">Yoga</span>
-                </h2>
-
-                <p className="text-[9px] uppercase tracking-[0.3em] text-[#7bae8a]">
-                  Neuro Wellness Institute
-                </p>
-              </div>
+            <Link
+              href="/"
+              className="group inline-flex items-center"
+              aria-label="Hayagriva Yoga Home"
+            >
+              <Image
+                src="/images/hayagriva-yoga-logo.png"
+                alt="Hayagriva Yoga"
+                width={220}
+                height={60}
+                priority
+                className="h-14 w-auto object-contain transition duration-300 group-hover:scale-[1.03]"
+              />
             </Link>
 
             <p className="mt-6 max-w-xs text-sm leading-7 text-[#b8c4ba]">
@@ -69,23 +70,25 @@ export default function Footer() {
             {/* Contact */}
             <div className="mt-6 space-y-3 text-sm text-[#b8c4ba]">
               <p className="flex items-center gap-3">
-                <Mail className="h-4 w-4 text-[#d6b36a]" />
+                <Mail className="h-4 w-4 shrink-0 text-[#d6b36a]" />
                 info@hayagrivayoga.com
               </p>
 
               <p className="flex items-center gap-3">
-                <Phone className="h-4 w-4 text-[#d6b36a]" />
-                +91 9740174787
+                <Phone className="h-4 w-4 shrink-0 text-[#d6b36a]" />
+                +91 9353708126
               </p>
 
               <p className="flex items-center gap-3">
-                <MapPin className="h-4 w-4 text-[#d6b36a]" />
+                <MapPin className="h-4 w-4 shrink-0 text-[#d6b36a]" />
                 Tumakuru, Karnataka, India
               </p>
             </div>
           </div>
 
-          {/* Footer Links */}
+          {/* =====================================================
+              FOOTER LINKS
+          ====================================================== */}
           {Object.entries(footerLinks).map(([title, links]) => (
             <div key={title}>
               <h3 className="mb-5 text-sm font-black uppercase tracking-widest text-[#d6b36a]">
@@ -101,7 +104,7 @@ export default function Footer() {
                     >
                       {item}
 
-                      <ArrowUpRight className="h-3 w-3 opacity-0 transition group-hover:opacity-100" />
+                      <ArrowUpRight className="h-3 w-3 opacity-0 transition group-hover:translate-x-0.5 group-hover:opacity-100" />
                     </Link>
                   </li>
                 ))}
@@ -109,7 +112,9 @@ export default function Footer() {
             </div>
           ))}
 
-          {/* Online Presence */}
+          {/* =====================================================
+              CONNECT
+          ====================================================== */}
           <div>
             <h3 className="mb-5 text-sm font-black uppercase tracking-widest text-[#d6b36a]">
               Connect
@@ -122,7 +127,7 @@ export default function Footer() {
             <div className="mt-6 space-y-3">
               <Link
                 href="/booking"
-                className="flex items-center gap-3 rounded-full bg-[#d6b36a] px-6 py-3 text-sm font-bold text-[#050706] transition hover:scale-105"
+                className="flex items-center justify-center gap-3 rounded-full bg-[#d6b36a] px-6 py-3 text-sm font-bold text-[#050706] transition duration-300 hover:-translate-y-0.5 hover:bg-[#e4c982] hover:shadow-[0_0_30px_rgba(214,179,106,0.25)]"
               >
                 <Globe className="h-4 w-4" />
                 Book Online Session
@@ -130,7 +135,7 @@ export default function Footer() {
 
               <Link
                 href="/contact"
-                className="block rounded-full border border-white/20 px-6 py-3 text-center text-sm font-bold transition hover:border-[#d6b36a] hover:text-[#d6b36a]"
+                className="block rounded-full border border-white/20 px-6 py-3 text-center text-sm font-bold transition duration-300 hover:border-[#d6b36a] hover:text-[#d6b36a]"
               >
                 Contact Us
               </Link>
@@ -138,11 +143,15 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Bottom */}
-        <div className="mt-14 border-t border-white/10 pt-8 text-center text-sm text-[#7f8f84]">
-          <p>© 2026 Hayagriva Yoga. All rights reserved.</p>
+        {/* =====================================================
+            BOTTOM
+        ====================================================== */}
+        <div className="mt-14 border-t border-white/10 pt-8 text-center">
+          <p className="text-sm text-[#7f8f84]">
+            © 2026 Hayagriva Yoga. All rights reserved.
+          </p>
 
-          <p className="mt-2">
+          <p className="mt-2 text-xs text-[#59665e]">
             Clinical Yoga Therapy • Pranayama • Meditation • Wellness
           </p>
 
