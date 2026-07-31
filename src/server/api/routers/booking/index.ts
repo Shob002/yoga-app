@@ -90,6 +90,10 @@ export const bookingRouter = createTRPCRouter({
         );
       }
 
+      /*
+       * STEP 1
+       * Create Zoom meeting
+       */
       const zoomMeeting = await createZoomMeeting({
         name: booking.name,
         therapy: booking.service,
@@ -98,6 +102,10 @@ export const bookingRouter = createTRPCRouter({
         duration: 60,
       });
 
+      /*
+       * STEP 2
+       * Update booking with Zoom information
+       */
       const confirmedBooking = await ctx.db.booking.update({
         where: {
           id: booking.id,
@@ -110,34 +118,77 @@ export const bookingRouter = createTRPCRouter({
         },
       });
 
-      if (confirmedBooking.email) {
-        try {
-          await sendBookingConfirmation({
-            name: confirmedBooking.name,
-            email: confirmedBooking.email,
-            service: confirmedBooking.service,
-            date: confirmedBooking.date,
-            time: confirmedBooking.time,
-            zoomLink: confirmedBooking.zoomJoinUrl ?? undefined,
-          });
-        } catch (error) {
-          console.error(
-            "Booking confirmation email failed:",
-            error,
-          );
-        }
+      /*
+       * STEP 3
+       * Send confirmation email
+       */
+      if (!confirmedBooking.email) {
+        return {
+          success: true,
+          emailSent: false,
+          message:
+            "Booking confirmed successfully, but no customer email address was provided.",
+          bookingId: confirmedBooking.id,
+          status: confirmedBooking.status,
+          zoomJoinUrl: confirmedBooking.zoomJoinUrl,
+          date: confirmedBooking.date,
+          time: confirmedBooking.time,
+          service: confirmedBooking.service,
+        };
       }
 
-      return {
-        success: true,
-        message: "Booking confirmed successfully.",
-        bookingId: confirmedBooking.id,
-        status: confirmedBooking.status,
-        zoomJoinUrl: confirmedBooking.zoomJoinUrl,
-        date: confirmedBooking.date,
-        time: confirmedBooking.time,
-        service: confirmedBooking.service,
-      };
+      try {
+        const emailResult = await sendBookingConfirmation({
+          name: confirmedBooking.name,
+          email: confirmedBooking.email,
+          service: confirmedBooking.service,
+          date: confirmedBooking.date,
+          time: confirmedBooking.time,
+          zoomLink: confirmedBooking.zoomJoinUrl ?? undefined,
+        });
+
+        console.log("=================================");
+        console.log("BOOKING CONFIRMED");
+        console.log("Booking ID:", confirmedBooking.id);
+        console.log("Customer:", confirmedBooking.email);
+        console.log("Zoom:", confirmedBooking.zoomJoinUrl);
+        console.log("Email sent:", emailResult?.id);
+        console.log("=================================");
+
+        return {
+          success: true,
+          emailSent: true,
+          message:
+            "Booking confirmed and confirmation email sent successfully.",
+          bookingId: confirmedBooking.id,
+          status: confirmedBooking.status,
+          zoomJoinUrl: confirmedBooking.zoomJoinUrl,
+          date: confirmedBooking.date,
+          time: confirmedBooking.time,
+          service: confirmedBooking.service,
+        };
+      } catch (error) {
+        console.error("=================================");
+        console.error("BOOKING CONFIRMED BUT EMAIL FAILED");
+        console.error("=================================");
+        console.error("Booking ID:", confirmedBooking.id);
+        console.error("Customer email:", confirmedBooking.email);
+        console.error("Email error:", error);
+        console.error("=================================");
+
+        return {
+          success: true,
+          emailSent: false,
+          message:
+            "Booking was confirmed, but the confirmation email could not be sent. Please check your Resend configuration.",
+          bookingId: confirmedBooking.id,
+          status: confirmedBooking.status,
+          zoomJoinUrl: confirmedBooking.zoomJoinUrl,
+          date: confirmedBooking.date,
+          time: confirmedBooking.time,
+          service: confirmedBooking.service,
+        };
+      }
     }),
 
   reject: publicProcedure

@@ -24,7 +24,7 @@ export const env = createEnv({
     // Resend
     // =========================
     RESEND_API_KEY: z.string(),
-    EMAIL_FROM: z.string().email(),
+    EMAIL_FROM: z.string(), // Supports: "Hayagriva Yoga <info@hayagrivayoga.com>"
 
     NODE_ENV: z
       .enum(["development", "test", "production"])
@@ -42,12 +42,16 @@ export const env = createEnv({
 
     DATABASE_URL: process.env.DATABASE_URL,
 
+    // =========================
     // Zoom
+    // =========================
     ZOOM_ACCOUNT_ID: process.env.ZOOM_ACCOUNT_ID,
     ZOOM_CLIENT_ID: process.env.ZOOM_CLIENT_ID,
     ZOOM_CLIENT_SECRET: process.env.ZOOM_CLIENT_SECRET,
 
+    // =========================
     // Resend
+    // =========================
     RESEND_API_KEY: process.env.RESEND_API_KEY,
     EMAIL_FROM: process.env.EMAIL_FROM,
 
