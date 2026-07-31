@@ -1,5 +1,7 @@
 import { Resend } from "resend";
 
+import { env } from "~/env";
+
 type BookingConfirmationData = {
   name: string;
   email: string;
@@ -21,18 +23,7 @@ function escapeHtml(value: string) {
 export async function sendBookingConfirmation(
   data: BookingConfirmationData,
 ) {
-  const apiKey = process.env.RESEND_API_KEY;
-  const emailFrom = process.env.EMAIL_FROM;
-
-  if (!apiKey) {
-    throw new Error("RESEND_API_KEY is not configured.");
-  }
-
-  if (!emailFrom) {
-    throw new Error("EMAIL_FROM is not configured.");
-  }
-
-  const resend = new Resend(apiKey);
+  const resend = new Resend(env.RESEND_API_KEY);
 
   const name = escapeHtml(data.name);
   const service = escapeHtml(data.service);
@@ -44,7 +35,7 @@ export async function sendBookingConfirmation(
   console.log("RESEND EMAIL START");
   console.log("=================================");
   console.log("TO:", email);
-  console.log("FROM:", emailFrom);
+  console.log("FROM:", env.EMAIL_FROM);
   console.log("SERVICE:", service);
   console.log("DATE:", date);
   console.log("TIME:", time);
@@ -52,7 +43,7 @@ export async function sendBookingConfirmation(
   console.log("=================================");
 
   const response = await resend.emails.send({
-    from: emailFrom,
+    from: env.EMAIL_FROM,
 
     replyTo: "info@hayagrivayoga.com",
 
@@ -89,10 +80,10 @@ border-radius:16px;
 <div style="text-align:center">
 
 <h1 style="
+margin:0;
 color:#d6b36a;
 font-size:28px;
 letter-spacing:3px;
-margin:0;
 ">
 HAYAGRIVA YOGA
 </h1>
@@ -102,7 +93,7 @@ color:#aaa;
 font-size:12px;
 letter-spacing:2px;
 ">
-YOGA THERAPY & WELLNESS
+YOGA THERAPY &amp; WELLNESS
 </p>
 
 </div>
@@ -125,10 +116,8 @@ Dear ${name},
 color:#d8d4ca;
 line-height:1.7;
 ">
-
 Thank you for choosing Hayagriva Yoga.
 Your yoga therapy session has been successfully confirmed.
-
 </p>
 
 
@@ -192,6 +181,14 @@ JOIN YOUR ZOOM SESSION
 
 </div>
 
+<p style="
+text-align:center;
+color:#aaa;
+font-size:13px;
+">
+Please join 5 minutes before your scheduled time.
+</p>
+
 `
     : `
 <div style="
@@ -221,7 +218,8 @@ color:#999;
 font-size:13px;
 ">
 
-If you have questions, please contact Hayagriva Yoga.
+If you have questions about your appointment,
+please contact Hayagriva Yoga.
 
 </p>
 
@@ -256,15 +254,15 @@ Hayagriva Yoga
 
     throw new Error(
       response.error.message ||
-      "Failed to send confirmation email.",
+        "Failed to send confirmation email.",
     );
   }
 
 
   console.log("=================================");
   console.log("RESEND EMAIL SENT SUCCESSFULLY");
-  console.log("ID:", response.data?.id);
-  console.log("TO:", email);
+  console.log("RESEND ID:", response.data?.id);
+  console.log("CUSTOMER:", email);
   console.log("=================================");
 
 
