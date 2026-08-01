@@ -3,439 +3,223 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import {
-  Menu,
-  X,
-  ChevronDown,
-  ArrowRight,
-} from "lucide-react";
+import { Menu, X, ArrowRight, ChevronDown } from "lucide-react";
 
-const menuItems = [
+const navLinks = [
   {
-    title: "Yoga Therapy",
-    href: "/#therapy",
-    items: [
-      {
-        label: "Clinical Approach",
-        href: "/#therapy",
-      },
-      {
-        label: "Assessment Method",
-        href: "/#journey",
-      },
-      {
-        label: "Breath Science",
-        href: "/#therapy",
-      },
-      {
-        label: "Evidence Based Therapy",
-        href: "/#therapy",
-      },
-    ],
+    label: "Home",
+    href: "/",
+    megaMenu: null,
   },
   {
-    title: "Conditions",
-    href: "/#conditions",
-    items: [
-      {
-        label: "Stress & Anxiety",
-        href: "/#conditions",
+    label: "Conditions",
+    href: "/conditions",
+    megaMenu: {
+      featured: {
+        title: "Conditions We Treat",
+        description: "Specialized yoga therapy programs for a range of physical and mental health conditions.",
+        href: "/conditions",
       },
-      {
-        label: "Back Pain",
-        href: "/#conditions",
-      },
-      {
-        label: "Diabetes",
-        href: "/#conditions",
-      },
-      {
-        label: "PCOS / Women's Wellness",
-        href: "/#conditions",
-      },
-      {
-        label: "Sleep Disorders",
-        href: "/#conditions",
-      },
-    ],
+      columns: [
+        {
+          title: "Mental Wellness",
+          links: [
+            { label: "Stress & Anxiety", href: "/conditions/stress-anxiety" },
+            { label: "Sleep Disorders", href: "/conditions/sleep" },
+            { label: "Burnout Recovery", href: "/conditions/burnout" },
+          ],
+        },
+        {
+          title: "Physical Health",
+          links: [
+            { label: "Back & Neck Pain", href: "/conditions/back-pain" },
+            { label: "Diabetes Management", href: "/conditions/diabetes" },
+            { label: "PCOS & Women's Health", href: "/conditions/pcos" },
+            { label: "Lifestyle Disorders", href: "/conditions/lifestyle" },
+          ],
+        },
+      ],
+    },
   },
   {
-    title: "Programs",
-    href: "/#programs",
-    items: [
-      {
-        label: "14 Day Stress Reset",
-        href: "/#programs",
+    label: "Programs",
+    href: "/programs",
+    megaMenu: {
+      featured: {
+        title: "Wellness Programs",
+        description: "Structured programs designed for lasting transformation and sustainable wellbeing.",
+        href: "/programs",
       },
-      {
-        label: "30 Day Transformation",
-        href: "/#programs",
-      },
-      {
-        label: "Personal Therapy",
-        href: "/#programs",
-      },
-      {
-        label: "Corporate Wellness",
-        href: "/#programs",
-      },
-    ],
-  },
-];
-
-const resourceItems = [
-  {
-    label: "Articles",
-    href: "/resources/articles",
-  },
-  {
-    label: "Research",
-    href: "/resources/research",
+      columns: [
+        {
+          title: "Personal Programs",
+          links: [
+            { label: "14 Day Stress Reset", href: "/programs/stress-reset" },
+            { label: "30 Day Transformation", href: "/programs/transformation" },
+            { label: "Personal Therapy", href: "/programs/personal" },
+          ],
+        },
+        {
+          title: "Group Programs",
+          links: [
+            { label: "Corporate Wellness", href: "/programs/corporate" },
+            { label: "Workshops", href: "/workshops" },
+            { label: "Retreats", href: "/retreats" },
+          ],
+        },
+      ],
+    },
   },
   {
-    label: "Pranayama Library",
-    href: "/resources/pranayama",
+    label: "Pricing",
+    href: "/pricing",
+    megaMenu: null,
   },
   {
-    label: "Wellness Guides",
-    href: "/resources/guides",
+    label: "Resources",
+    href: "/resources",
+    megaMenu: {
+      featured: {
+        title: "Knowledge Center",
+        description: "Articles, research insights, and practical guides for your wellness journey.",
+        href: "/resources",
+      },
+      columns: [
+        {
+          title: "Learn",
+          links: [
+            { label: "Articles", href: "/resources/articles" },
+            { label: "Research", href: "/resources/research" },
+            { label: "Wellness Guides", href: "/resources/guides" },
+          ],
+        },
+        {
+          title: "Practice",
+          links: [
+            { label: "Pranayama Library", href: "/resources/pranayama" },
+            { label: "FAQ", href: "/faq" },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    label: "Therapists",
+    href: "/therapists",
+    megaMenu: null,
+  },
+  {
+    label: "Contact",
+    href: "/contact",
+    megaMenu: null,
   },
 ];
 
 export default function Navbar() {
-  const [open, setOpen] = useState<string | null>(null);
   const [mobileMenu, setMobileMenu] = useState(false);
+  const [activeMegaMenu, setActiveMegaMenu] = useState<string | null>(null);
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
-  const closeMenus = () => {
-    setOpen(null);
-    setMobileMenu(false);
+  const handleMouseEnter = (label: string) => {
+    if (timeoutId) { clearTimeout(timeoutId); setTimeoutId(null); }
+    setActiveMegaMenu(label);
+  };
+
+  const handleMouseLeave = () => {
+    const id = setTimeout(() => setActiveMegaMenu(null), 150);
+    setTimeoutId(id);
   };
 
   return (
-    <header className="fixed top-0 z-50 w-full border-b border-white/10 bg-[#050706]/85 backdrop-blur-2xl">
-      <nav className="mx-auto flex h-[76px] max-w-7xl items-center justify-between px-5 lg:px-6">
-
-        {/* =====================================================
-            HAYAGRIVA YOGA LOGO
-        ====================================================== */}
-
-        <Link
-          href="/"
-          onClick={closeMenus}
-          className="group flex shrink-0 items-center"
-          aria-label="Hayagriva Yoga Home"
-        >
-          <Image
-            src="/images/hayagriva-yoga-logo.png"
-            alt="Hayagriva Yoga"
-            width={220}
-            height={60}
-            priority
-            className="h-12 w-auto object-contain transition duration-300 group-hover:scale-[1.03]"
-          />
+    <header className="fixed top-0 z-50 w-full border-b border-[#E6E6E6] bg-white">
+      <nav className="mx-auto flex h-[80px] max-w-[1240px] items-center justify-between px-6 lg:px-8">
+        <Link href="/" className="shrink-0" aria-label="Hayagriva Yoga Home">
+          <Image src="/images/hayagriva-yoga-logo.png" alt="Hayagriva Yoga" width={200} height={52} priority className="h-11 w-auto object-contain" />
         </Link>
 
-        {/* =====================================================
-            DESKTOP NAVIGATION
-        ====================================================== */}
-
-        <div className="hidden items-center gap-1 lg:flex">
-
-          {/* HOME */}
-
-          <Link
-            href="/"
-            className="rounded-full px-4 py-2.5 text-[13px] font-semibold text-white/70 transition hover:bg-white/5 hover:text-[#d6b36a]"
-          >
-            Home
-          </Link>
-
-          {/* YOGA THERAPY / CONDITIONS / PROGRAMS */}
-
-          {menuItems.map((menu) => (
-            <div
-              key={menu.title}
-              className="group relative"
-            >
+        <div className="hidden items-center gap-0 lg:flex">
+          {navLinks.map((link) => (
+            <div key={link.label} className="relative" onMouseEnter={() => link.megaMenu && handleMouseEnter(link.label)} onMouseLeave={handleMouseLeave}>
               <Link
-                href={menu.href}
-                className="flex items-center gap-1 rounded-full px-4 py-2.5 text-[13px] font-semibold text-white/70 transition hover:bg-white/5 hover:text-[#d6b36a]"
+                href={link.href}
+                className="flex items-center gap-1 px-5 py-2.5 text-[16px] font-bold tracking-tight text-[#1A1A1A] transition-colors duration-150 hover:text-[#555555]"
               >
-                {menu.title}
-
-                <ChevronDown className="h-3.5 w-3.5 transition group-hover:rotate-180" />
+                {link.label}
+                {link.megaMenu && (
+                  <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${activeMegaMenu === link.label ? "rotate-180" : ""}`} />
+                )}
               </Link>
-
-              {/* DESKTOP DROPDOWN */}
-
-              <div className="pointer-events-none invisible absolute left-0 top-full w-72 pt-3 opacity-0 transition-all duration-200 group-hover:pointer-events-auto group-hover:visible group-hover:opacity-100">
-                <div className="rounded-2xl border border-white/10 bg-[#0b120e]/98 p-2 shadow-[0_20px_80px_#00000099] backdrop-blur-xl">
-
-                  <Link
-                    href={menu.href}
-                    className="mb-1 block rounded-xl bg-white/[0.035] px-4 py-3 text-xs font-black uppercase tracking-[0.15em] text-[#d6b36a] transition hover:bg-white/[0.07]"
-                  >
-                    Explore {menu.title}
-                  </Link>
-
-                  {menu.items.map((item) => (
-                    <Link
-                      key={item.label}
-                      href={item.href}
-                      className="block rounded-xl px-4 py-3 text-sm text-white/65 transition hover:bg-white/5 hover:text-white"
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
-                </div>
-              </div>
             </div>
           ))}
 
-          {/* RESOURCES */}
-
-          <div className="group relative">
-            <Link
-              href="/resources"
-              className="flex items-center gap-1 rounded-full px-4 py-2.5 text-[13px] font-semibold text-white/70 transition hover:bg-white/5 hover:text-[#d6b36a]"
-            >
-              Resources
-
-              <ChevronDown className="h-3.5 w-3.5 transition group-hover:rotate-180" />
-            </Link>
-
-            <div className="pointer-events-none invisible absolute left-0 top-full w-64 pt-3 opacity-0 transition-all duration-200 group-hover:pointer-events-auto group-hover:visible group-hover:opacity-100">
-              <div className="rounded-2xl border border-white/10 bg-[#0b120e]/98 p-2 shadow-[0_20px_80px_#00000099] backdrop-blur-xl">
-
-                <Link
-                  href="/resources"
-                  className="mb-1 block rounded-xl bg-white/[0.035] px-4 py-3 text-xs font-black uppercase tracking-[0.15em] text-[#d6b36a]"
-                >
-                  Wellness Resources
-                </Link>
-
-                {resourceItems.map((item) => (
-                  <Link
-                    key={item.label}
-                    href={item.href}
-                    className="block rounded-xl px-4 py-3 text-sm text-white/65 transition hover:bg-white/5 hover:text-white"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* THERAPISTS */}
-
-          <Link
-            href="/therapists"
-            className="rounded-full px-4 py-2.5 text-[13px] font-semibold text-white/70 transition hover:bg-white/5 hover:text-[#d6b36a]"
-          >
-            Therapists
-          </Link>
-
-          {/* CONTACT */}
-
-          <Link
-            href="/contact"
-            className="rounded-full px-4 py-2.5 text-[13px] font-semibold text-white/70 transition hover:bg-white/5 hover:text-[#d6b36a]"
-          >
-            Contact
-          </Link>
-
-          {/* =================================================
-              PRIMARY CTA
-          ================================================== */}
-
-          <Link
-            href="/booking"
-            className="ml-3 inline-flex items-center gap-2 rounded-full bg-[#d6b36a] px-5 py-3 text-[12px] font-black uppercase tracking-[0.12em] text-[#050706] shadow-[0_0_30px_#d6b36a22] transition hover:-translate-y-0.5 hover:shadow-[0_0_45px_#d6b36a55]"
-          >
+          <Link href="/booking" className="ml-5 inline-flex h-[48px] items-center gap-2 rounded-full bg-[#1A1A1A] px-7 text-[16px] font-bold tracking-tight text-white transition-colors duration-150 hover:bg-[#333333]">
             Book Consultation
-
-            <ArrowRight className="h-3.5 w-3.5" />
+            <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
 
-        {/* =====================================================
-            MOBILE MENU BUTTON
-        ====================================================== */}
-
-        <button
-          type="button"
-          onClick={() => setMobileMenu(!mobileMenu)}
-          className="rounded-xl border border-white/10 bg-white/5 p-2.5 text-[#f7efe0] lg:hidden"
-          aria-label={
-            mobileMenu
-              ? "Close navigation"
-              : "Open navigation"
-          }
-          aria-expanded={mobileMenu}
-        >
-          {mobileMenu ? (
-            <X className="h-5 w-5" />
-          ) : (
-            <Menu className="h-5 w-5" />
-          )}
+        <button type="button" onClick={() => setMobileMenu(!mobileMenu)} className="rounded-lg p-2 text-[#1A1A1A] lg:hidden" aria-label={mobileMenu ? "Close navigation" : "Open navigation"} aria-expanded={mobileMenu}>
+          {mobileMenu ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
       </nav>
 
-      {/* =====================================================
-          MOBILE NAVIGATION
-      ====================================================== */}
+      {activeMegaMenu && (
+        <div className="absolute left-0 top-[80px] w-full border-b border-[#E6E6E6] bg-white shadow-[0_20px_50px_rgba(0,0,0,0.06)]" onMouseEnter={() => { if (timeoutId) { clearTimeout(timeoutId); setTimeoutId(null); } }} onMouseLeave={handleMouseLeave}>
+          <div className="mx-auto max-w-[1240px] px-6 py-10 lg:px-8">
+            {navLinks.filter((link) => link.label === activeMegaMenu && link.megaMenu).map((link) => (
+              <div key={link.label} className="flex gap-16">
+                <div className="w-[300px] shrink-0 border-r border-[#F0F0F0] pr-10">
+                  <h3 className="text-[22px] font-bold leading-tight text-[#1A1A1A]">{link.megaMenu!.featured.title}</h3>
+                  <p className="mt-3 text-[15px] leading-[1.6] text-[#555555]">{link.megaMenu!.featured.description}</p>
+                  <Link href={link.megaMenu!.featured.href} className="mt-5 inline-flex items-center gap-2 text-[15px] font-bold text-[#1A1A1A] transition-colors duration-150 hover:text-[#555555]">
+                    Learn more
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </div>
+                <div className="flex gap-16">
+                  {link.megaMenu!.columns.map((column) => (
+                    <div key={column.title}>
+                      <h4 className="mb-4 text-[14px] font-bold uppercase tracking-wider text-[#8A8480]">{column.title}</h4>
+                      <ul className="space-y-3">
+                        {column.links.map((item) => (
+                          <li key={item.label}>
+                            <Link href={item.href} className="text-[16px] font-medium text-[#555555] transition-colors duration-150 hover:text-[#1A1A1A]">{item.label}</Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {mobileMenu && (
-        <div className="max-h-[calc(100vh-76px)] overflow-y-auto border-t border-white/10 bg-[#050706]/98 px-5 pb-8 pt-4 backdrop-blur-2xl lg:hidden">
-
-          {/* HOME */}
-
-          <Link
-            href="/"
-            onClick={closeMenus}
-            className="block border-b border-white/5 py-4 text-sm font-semibold text-white/80"
-          >
-            Home
-          </Link>
-
-          {/* MOBILE DROPDOWNS */}
-
-          {menuItems.map((menu) => (
-            <div
-              key={menu.title}
-              className="border-b border-white/5"
-            >
-              <button
-                type="button"
-                onClick={() =>
-                  setOpen(
-                    open === menu.title
-                      ? null
-                      : menu.title,
-                  )
-                }
-                className="flex w-full items-center justify-between py-4 text-sm font-semibold text-white/80"
-              >
-                {menu.title}
-
-                <ChevronDown
-                  className={`h-4 w-4 transition ${
-                    open === menu.title
-                      ? "rotate-180 text-[#d6b36a]"
-                      : ""
-                  }`}
-                />
-              </button>
-
-              {open === menu.title && (
-                <div className="pb-3 pl-3">
-
-                  <Link
-                    href={menu.href}
-                    onClick={closeMenus}
-                    className="block rounded-lg px-3 py-2.5 text-xs font-black uppercase tracking-[0.12em] text-[#d6b36a]"
-                  >
-                    Explore {menu.title}
-                  </Link>
-
-                  {menu.items.map((item) => (
-                    <Link
-                      key={item.label}
-                      href={item.href}
-                      onClick={closeMenus}
-                      className="block rounded-lg px-3 py-2.5 text-sm text-white/55 transition hover:bg-white/5 hover:text-white"
-                    >
-                      {item.label}
-                    </Link>
+        <div className="border-t border-[#E6E6E6] bg-white px-6 pb-8 pt-4 lg:hidden">
+          {navLinks.map((link) => (
+            <div key={link.label} className="border-b border-[#F0F0F0] last:border-b-0">
+              <Link href={link.href} onClick={() => setMobileMenu(false)} className="block py-4 text-[18px] font-bold tracking-tight text-[#1A1A1A]">
+                {link.label}
+              </Link>
+              {link.megaMenu && (
+                <div className="pb-3 pl-4">
+                  {link.megaMenu.columns.map((column) => (
+                    <div key={column.title} className="mb-3">
+                      <p className="py-1 text-[13px] font-bold uppercase tracking-wider text-[#8A8480]">{column.title}</p>
+                      {column.links.map((item) => (
+                        <Link key={item.label} href={item.href} onClick={() => setMobileMenu(false)} className="block py-2 text-[15px] text-[#555555]">{item.label}</Link>
+                      ))}
+                    </div>
                   ))}
                 </div>
               )}
             </div>
           ))}
-
-          {/* RESOURCES */}
-
-          <div className="border-b border-white/5">
-            <button
-              type="button"
-              onClick={() =>
-                setOpen(
-                  open === "Resources"
-                    ? null
-                    : "Resources",
-                )
-              }
-              className="flex w-full items-center justify-between py-4 text-sm font-semibold text-white/80"
-            >
-              Resources
-
-              <ChevronDown
-                className={`h-4 w-4 transition ${
-                  open === "Resources"
-                    ? "rotate-180 text-[#d6b36a]"
-                    : ""
-                }`}
-              />
-            </button>
-
-            {open === "Resources" && (
-              <div className="pb-3 pl-3">
-
-                <Link
-                  href="/resources"
-                  onClick={closeMenus}
-                  className="block rounded-lg px-3 py-2.5 text-xs font-black uppercase tracking-[0.12em] text-[#d6b36a]"
-                >
-                  All Resources
-                </Link>
-
-                {resourceItems.map((item) => (
-                  <Link
-                    key={item.label}
-                    href={item.href}
-                    onClick={closeMenus}
-                    className="block rounded-lg px-3 py-2.5 text-sm text-white/55 transition hover:bg-white/5 hover:text-white"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* THERAPISTS */}
-
-          <Link
-            href="/therapists"
-            onClick={closeMenus}
-            className="block border-b border-white/5 py-4 text-sm font-semibold text-white/80"
-          >
-            Therapists
-          </Link>
-
-          {/* CONTACT */}
-
-          <Link
-            href="/contact"
-            onClick={closeMenus}
-            className="block py-4 text-sm font-semibold text-white/80"
-          >
-            Contact
-          </Link>
-
-          {/* =================================================
-              MOBILE CTA
-          ================================================== */}
-
-          <Link
-            href="/booking"
-            onClick={closeMenus}
-            className="mt-5 flex items-center justify-center gap-2 rounded-full bg-[#d6b36a] px-6 py-4 text-sm font-black uppercase tracking-[0.12em] text-[#050706]"
-          >
+          <Link href="/booking" onClick={() => setMobileMenu(false)} className="mt-6 flex h-[52px] items-center justify-center gap-2 rounded-full bg-[#1A1A1A] text-[18px] font-bold tracking-tight text-white">
             Book Consultation
-
-            <ArrowRight className="h-4 w-4" />
+            <ArrowRight className="h-5 w-5" />
           </Link>
         </div>
       )}

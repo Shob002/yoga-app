@@ -1,352 +1,155 @@
+"use client";
+
+import { motion } from "framer-motion";
 import Link from "next/link";
-import {
-  Activity,
-  ArrowRight,
-  Brain,
-  HeartPulse,
-  Moon,
-  ShieldPlus,
-  Sparkles,
-  Wind,
-} from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 const conditions = [
   {
-    icon: Brain,
-    number: "01",
-    title: "Stress & Anxiety",
-    description:
-      "Structured yoga therapy using breath regulation, movement, relaxation, and mindfulness practices to support better stress management.",
-    tags: ["Stress", "Anxiety", "Mindfulness"],
+    title: "Musculoskeletal Disorders",
+    description: "Back pain, neck pain, arthritis, frozen shoulder, sciatica, and postural issues.",
+    href: "/conditions/musculoskeletal",
+    large: true,
   },
   {
-    icon: Activity,
-    number: "02",
-    title: "Back & Neck Pain",
-    description:
-      "Individualized therapeutic movement, posture awareness, mobility practices, and relaxation techniques designed around your needs.",
-    tags: ["Back Pain", "Neck Pain", "Mobility"],
+    title: "Neurological Disorders",
+    description: "Stroke recovery, Parkinson's, multiple sclerosis, and neuropathy support.",
+    href: "/conditions/neurological",
+    large: false,
   },
   {
-    icon: HeartPulse,
-    number: "03",
-    title: "Diabetes & Metabolic Health",
-    description:
-      "A supportive lifestyle-oriented yoga therapy approach incorporating movement, breathing, relaxation, and healthy routines.",
-    tags: ["Diabetes", "Lifestyle", "Wellness"],
+    title: "Cardiovascular Disorders",
+    description: "Hypertension, heart disease recovery, and circulation management.",
+    href: "/conditions/cardiovascular",
+    large: false,
   },
   {
-    icon: Sparkles,
-    number: "04",
-    title: "PCOS & Women's Wellness",
-    description:
-      "Personalized yoga practices supporting movement, stress management, relaxation, body awareness, and sustainable lifestyle habits.",
-    tags: ["PCOS", "Women's Wellness", "Stress"],
+    title: "Respiratory Disorders",
+    description: "Asthma, COPD, bronchitis, and breathing difficulties.",
+    href: "/conditions/respiratory",
+    large: false,
   },
   {
-    icon: Moon,
-    number: "05",
-    title: "Sleep Disorders",
-    description:
-      "Gentle evening practices, breathing techniques, relaxation, and mindfulness to help establish a healthier sleep-supportive routine.",
-    tags: ["Sleep", "Relaxation", "Pranayama"],
+    title: "Endocrine & Metabolic",
+    description: "Diabetes, thyroid, PCOS, and metabolic syndrome.",
+    href: "/conditions/endocrine",
+    large: false,
   },
   {
-    icon: Wind,
-    number: "06",
-    title: "Breathing & Respiratory Wellness",
-    description:
-      "Breath-focused practices and gentle yoga techniques selected according to individual capacity and therapeutic goals.",
-    tags: ["Breathing", "Pranayama", "Respiratory"],
-  },
-];
-
-const approachSteps = [
-  {
-    number: "01",
-    title: "Assessment",
-    text: "Understand your current needs.",
+    title: "Mental Health & Stress",
+    description: "Anxiety, depression, burnout, and chronic stress.",
+    href: "/conditions/mental-health",
+    large: true,
   },
   {
-    number: "02",
-    title: "Personalization",
-    text: "Build practices around you.",
+    title: "Women's Health",
+    description: "Menstrual health, menopause, prenatal and postnatal care.",
+    href: "/conditions/womens-health",
+    large: false,
   },
   {
-    number: "03",
-    title: "Practice",
-    text: "Progress through guided sessions.",
+    title: "Gastrointestinal Disorders",
+    description: "IBS, acidity, constipation, and digestive health.",
+    href: "/conditions/gastrointestinal",
+    large: false,
   },
   {
-    number: "04",
-    title: "Review",
-    text: "Adapt your plan over time.",
+    title: "Cancer Support & Palliative Care",
+    description: "Supportive therapy during and after cancer treatment.",
+    href: "/conditions/cancer-support",
+    large: false,
+  },
+  {
+    title: "Geriatric & Lifestyle",
+    description: "Age-related mobility, osteoporosis, and balance concerns.",
+    href: "/conditions/geriatric",
+    large: false,
   },
 ];
 
 export default function Conditions() {
   return (
-    <section
-      id="conditions"
-      className="relative overflow-hidden bg-[#050706] text-[#f7efe0]"
-    >
-      {/* Background */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 overflow-hidden"
-      >
-        <div className="absolute left-[-15%] top-[8%] h-125 w-[500px] rounded-full bg-[#d6b36a]/10 blur-[140px]" />
+    <section className="bg-[#FAF8F5] px-6 py-20 lg:px-8 lg:py-28">
+      <div className="mx-auto max-w-[1240px]">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="mb-16"
+        >
+          <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[#1F3528]">
+            What We Treat
+          </p>
+          <h2 className="max-w-[720px] text-[48px] font-bold leading-[1.05] tracking-[-0.02em] text-[#1A1A1A] lg:text-[64px]">
+            Conditions we support through yoga therapy.
+          </h2>
+        </motion.div>
 
-        <div className="absolute right-[-10%] top-[45%] h-[500px] w-[500px] rounded-full bg-[#7bae8a]/10 blur-[140px]" />
-
-        <div className="absolute bottom-[-10%] left-[35%] h-[400px] w-[400px] rounded-full bg-[#d6b36a]/5 blur-[140px]" />
-      </div>
-
-      {/* Hero */}
-      <div className="relative px-6 pb-20 pt-20 md:pb-28 md:pt-28">
-        <div className="mx-auto max-w-7xl">
-          <div className="max-w-4xl">
-            {/* Label */}
-            <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-[#d6b36a]/25 bg-[#d6b36a]/5 px-5 py-2.5">
-              <ShieldPlus
-                className="h-4 w-4 text-[#d6b36a]"
-                strokeWidth={1.8}
-              />
-
-              <span className="text-xs font-bold uppercase tracking-[0.25em] text-[#d6b36a]">
-                Conditions We Support
-              </span>
-            </div>
-
-            {/* Heading */}
-            <h2 className="text-[clamp(3.2rem,8vw,7rem)] font-black leading-[0.88] tracking-[-0.065em]">
-              Yoga Therapy
-              <span className="block text-[#d6b36a]">
-                For Your Health.
-              </span>
-            </h2>
-
-            {/* Description */}
-            <p className="mt-8 max-w-2xl text-lg leading-8 text-[#aeb9b1] md:text-xl">
-              Personalized yoga therapy for common physical, mental, and
-              lifestyle-related health challenges. Your program is adapted
-              according to your needs, capacity, goals, and assessment.
-            </p>
-
-            {/* Hero buttons */}
-            <div className="mt-10 flex flex-wrap gap-4">
+        {/* Grid */}
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {conditions.map((item, index) => (
+            <motion.div
+              key={item.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.05 }}
+              viewport={{ once: true }}
+              className={item.large ? "sm:col-span-2" : ""}
+            >
               <Link
-                href="/booking"
-                className="group inline-flex items-center gap-3 rounded-full bg-[#d6b36a] px-7 py-4 text-sm font-black uppercase tracking-wider text-[#050706] transition duration-300 hover:-translate-y-1 hover:bg-[#e2c47e] hover:shadow-[0_0_50px_rgba(214,179,106,0.25)]"
+                href={item.href}
+                className="group flex h-full flex-col justify-between rounded-lg border border-[#E0DCD6] bg-white p-7 transition-all duration-300 hover:border-[#1F3528] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] lg:p-8"
               >
-                Start Assessment
+                <div>
+                  <h3 className="text-[20px] font-semibold leading-tight text-[#1A1A1A] transition-colors duration-300 group-hover:text-[#1F3528] lg:text-[24px]">
+                    {item.title}
+                  </h3>
+                  <p className="mt-3 text-[14px] leading-[1.7] text-[#555555] lg:text-[15px]">
+                    {item.description}
+                  </p>
+                </div>
 
-                <ArrowRight
-                  className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
-                  strokeWidth={2}
-                />
+                <div className="mt-6 flex items-center gap-2 text-[13px] font-semibold text-[#1F3528] opacity-0 transition-all duration-300 group-hover:opacity-100">
+                  Explore
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </div>
               </Link>
-
-              <Link
-                href="/therapists"
-                className="rounded-full border border-white/15 bg-white/[0.03] px-7 py-4 text-sm font-bold text-white/80 transition duration-300 hover:border-[#d6b36a]/40 hover:bg-white/[0.06] hover:text-white"
-              >
-                Meet Our Therapists
-              </Link>
-            </div>
-          </div>
+            </motion.div>
+          ))}
         </div>
-      </div>
 
-      {/* Conditions */}
-      <div className="relative px-6 pb-28">
-        <div className="mx-auto max-w-7xl">
-          {/* Section heading */}
-          <div className="mb-12 flex flex-col justify-between gap-5 md:flex-row md:items-end">
+        {/* Bottom */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          viewport={{ once: true }}
+          className="mt-12 border-t border-[#E0DCD6] pt-10"
+        >
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.3em] text-[#7bae8a]">
-                Personalized Care
-              </p>
-
-              <h3 className="mt-3 text-3xl font-black tracking-[-0.04em] text-white md:text-5xl">
-                Areas of Therapeutic Support
+              <h3 className="text-[22px] font-semibold text-[#1A1A1A]">
+                Not sure where to start?
               </h3>
+              <p className="mt-1 text-[15px] text-[#555555]">
+                Book a consultation and we will assess your needs.
+              </p>
             </div>
-
-            <p className="max-w-md text-sm leading-7 text-[#8e9a92]">
-              Yoga therapy is complementary care and does not replace
-              diagnosis, emergency care, medication, or treatment prescribed
-              by your qualified healthcare professional.
-            </p>
-          </div>
-
-          {/* Cards */}
-          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {conditions.map((condition) => {
-              const Icon = condition.icon;
-
-              return (
-                <article
-                  key={condition.title}
-                  className="group relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.025] p-7 transition-all duration-500 hover:-translate-y-1 hover:border-[#d6b36a]/30 hover:bg-white/[0.045] hover:shadow-[0_20px_60px_rgba(0,0,0,0.25)]"
-                >
-                  {/* Card glow */}
-                  <div
-                    aria-hidden="true"
-                    className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[#d6b36a]/5 blur-3xl transition duration-500 group-hover:bg-[#d6b36a]/10"
-                  />
-
-                  <div className="relative">
-                    {/* Icon + number */}
-                    <div className="flex items-start justify-between">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[#d6b36a]/20 bg-[#d6b36a]/5">
-                        <Icon
-                          className="h-5 w-5 text-[#d6b36a]"
-                          strokeWidth={1.8}
-                        />
-                      </div>
-
-                      <span className="text-xs font-black tracking-[0.2em] text-white/20">
-                        {condition.number}
-                      </span>
-                    </div>
-
-                    {/* Title */}
-                    <h4 className="mt-7 text-xl font-black text-white">
-                      {condition.title}
-                    </h4>
-
-                    {/* Description */}
-                    <p className="mt-4 text-sm leading-7 text-[#9da9a1]">
-                      {condition.description}
-                    </p>
-
-                    {/* Tags */}
-                    <div className="mt-6 flex flex-wrap gap-2">
-                      {condition.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white/50"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-
-      {/* Approach */}
-      <div className="relative border-y border-white/10 bg-[#0a100d] px-6 py-24">
-        <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-2 lg:items-center">
-          {/* Text */}
-          <div>
-            <p className="text-xs font-black uppercase tracking-[0.3em] text-[#d6b36a]">
-              Not One-Size-Fits-All
-            </p>
-
-            <h3 className="mt-5 text-4xl font-black leading-tight tracking-[-0.04em] text-white md:text-6xl">
-              Your condition is only
-              <span className="block text-[#7bae8a]">
-                one part of the picture.
-              </span>
-            </h3>
-
-            <p className="mt-6 max-w-xl text-base leading-8 text-[#9eaaa2]">
-              Our approach considers your current symptoms, lifestyle,
-              movement patterns, breathing, stress, sleep, and personal goals
-              before building your practice.
-            </p>
-
             <Link
               href="/booking"
-              className="group mt-8 inline-flex items-center gap-3 rounded-full bg-[#d6b36a] px-7 py-4 text-sm font-black uppercase tracking-wider text-[#050706] transition duration-300 hover:-translate-y-1 hover:bg-[#e2c47e] hover:shadow-[0_0_50px_rgba(214,179,106,0.25)]"
+              className="inline-flex h-[48px] items-center gap-2 rounded-full bg-[#1A1A1A] px-7 text-[15px] font-semibold text-white transition-colors duration-150 hover:bg-[#333333]"
             >
-              Begin Assessment
-
-              <ArrowRight
-                className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
-                strokeWidth={2}
-              />
+              Book a Consultation
+              <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
 
-          {/* Steps */}
-          <div className="grid gap-4 sm:grid-cols-2">
-            {approachSteps.map((step) => (
-              <div
-                key={step.number}
-                className="rounded-3xl border border-white/10 bg-white/[0.025] p-6 transition duration-300 hover:border-[#d6b36a]/20 hover:bg-white/[0.04]"
-              >
-                <span className="text-xs font-black tracking-[0.2em] text-[#d6b36a]">
-                  {step.number}
-                </span>
-
-                <h4 className="mt-4 font-black text-white">
-                  {step.title}
-                </h4>
-
-                <p className="mt-2 text-sm leading-6 text-[#89968e]">
-                  {step.text}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* CTA */}
-      <div className="relative px-6 py-28">
-        <div className="relative mx-auto max-w-5xl overflow-hidden rounded-[3rem] border border-[#d6b36a]/20 bg-gradient-to-br from-[#172019] to-[#0a0e0b] p-10 text-center md:p-16">
-          {/* Glow */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute left-1/2 top-0 h-64 w-64 -translate-x-1/2 rounded-full bg-[#d6b36a]/10 blur-[100px]"
-          />
-
-          <div className="relative">
-            <p className="text-xs font-black uppercase tracking-[0.3em] text-[#d6b36a]">
-              Begin Your Journey
-            </p>
-
-            <h3 className="mx-auto mt-5 max-w-3xl text-4xl font-black tracking-[-0.05em] text-white md:text-6xl">
-              Find a practice that
-              <span className="block text-[#7bae8a]">
-                fits your life.
-              </span>
-            </h3>
-
-            <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-[#9ba79f]">
-              Start with an assessment and discover how personalized yoga
-              therapy can become part of your wellness journey.
-            </p>
-
-            <div className="mt-9 flex flex-wrap justify-center gap-4">
-              <Link
-                href="/booking"
-                className="group inline-flex items-center gap-3 rounded-full bg-[#d6b36a] px-8 py-4 text-sm font-black uppercase tracking-wider text-[#050706] transition duration-300 hover:-translate-y-1 hover:bg-[#e2c47e] hover:shadow-[0_0_50px_rgba(214,179,106,0.25)]"
-              >
-                Book Assessment
-
-                <ArrowRight
-                  className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
-                  strokeWidth={2}
-                />
-              </Link>
-
-              <Link
-                href="/contact"
-                className="rounded-full border border-white/15 px-8 py-4 text-sm font-bold text-white/80 transition duration-300 hover:border-white/25 hover:bg-white/5 hover:text-white"
-              >
-                Contact Us
-              </Link>
-            </div>
-          </div>
-        </div>
+          <p className="mt-8 text-[12px] leading-[1.7] text-[#8A8480]">
+            Yoga therapy is a complementary approach and does not replace medical diagnosis, emergency care, medication, or treatment prescribed by your qualified healthcare professional.
+          </p>
+        </motion.div>
       </div>
     </section>
   );

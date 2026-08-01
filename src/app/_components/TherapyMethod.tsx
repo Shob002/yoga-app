@@ -2,186 +2,147 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import {
-  Video,
-  ClipboardCheck,
-  HeartPulse,
-  ArrowRight,
-  CheckCircle,
-} from "lucide-react";
+import { ArrowRight, Monitor, ClipboardCheck, UserCheck, FileText, PlayCircle, Home, MessageCircle, BarChart3 } from "lucide-react";
 
-const methods = [
+const steps = [
   {
-    icon: Video,
-    title: "Personalised 1-on-1 Therapy",
-    description:
-      "Work directly with a qualified yoga therapist through live online sessions tailored to your health concerns, lifestyle and goals.",
-    badge: "PERSONALISED CARE",
-    features: [
-      "Individual assessment",
-      "Live therapist guidance",
-      "Personalised practices",
-    ],
+    step: "01",
+    icon: Monitor,
+    title: "Register Online",
+    description: "Fill out a quick form with your details, health history, and wellness goals. Takes less than 5 minutes.",
   },
   {
+    step: "02",
+    icon: UserCheck,
+    title: "Video Consultation",
+    description: "Meet your therapist face-to-face via secure video call. Discuss your concerns, lifestyle, and what you want to achieve.",
+  },
+  {
+    step: "03",
     icon: ClipboardCheck,
-    title: "Assessment-Based Programs",
-    description:
-      "Your therapy plan begins with understanding your needs and is structured around appropriate yoga, breathing, relaxation and lifestyle practices.",
-    badge: "THERAPY PLAN",
-    features: [
-      "Health-focused assessment",
-      "Structured practice plan",
-      "Progress-based adjustments",
-    ],
+    title: "Clinical Assessment",
+    description: "A thorough evaluation of your physical, mental, and lifestyle factors. We identify root causes, not just symptoms.",
   },
   {
-    icon: HeartPulse,
-    title: "Ongoing Wellness Support",
-    description:
-      "Receive continued guidance as you build sustainable habits and integrate therapeutic yoga into your everyday life.",
-    badge: "LONG-TERM SUPPORT",
-    features: [
-      "Regular follow-up",
-      "Practice progression",
-      "Lifestyle guidance",
-    ],
+    step: "04",
+    icon: FileText,
+    title: "Personalized Therapy Plan",
+    description: "Your therapist designs a structured plan with specific yoga practices, breathwork, and daily routines tailored to you.",
+  },
+  {
+    step: "05",
+    icon: PlayCircle,
+    title: "Live One-to-One Sessions",
+    description: "Begin your therapy through interactive online sessions. Real-time guidance, posture correction, and personalized attention.",
+  },
+  {
+    step: "06",
+    icon: Home,
+    title: "Guided Home Practice",
+    description: "Access your customized practice library. Follow along with recorded sessions designed specifically for your needs.",
+  },
+  {
+    step: "07",
+    icon: MessageCircle,
+    title: "Weekly Follow-ups",
+    description: "Regular check-ins via call or chat. Track your progress, address challenges, and refine your practice.",
+  },
+  {
+    step: "08",
+    icon: BarChart3,
+    title: "Progress Evaluation",
+    description: "Review measurable improvements in your health markers. Reassess goals and plan your next phase of wellness.",
   },
 ];
 
 export default function TherapyMethod() {
   return (
-    <section
-      id="therapy"
-      className="relative overflow-hidden bg-white py-20 md:py-28"
-    >
-      {/* Subtle background accents */}
-      <div className="pointer-events-none absolute -left-32 top-20 h-72 w-72 rounded-full bg-[#d6b36a]/5 blur-3xl" />
-      <div className="pointer-events-none absolute -right-32 bottom-10 h-72 w-72 rounded-full bg-[#7bae8a]/5 blur-3xl" />
-
-      <div className="relative mx-auto max-w-7xl px-6">
-        {/* Section Header */}
+    <section className="bg-white px-6 py-20 lg:px-8 lg:py-28">
+      <div className="mx-auto max-w-[1240px]">
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          viewport={{ once: true, amount: 0.2 }}
-          className="mx-auto mb-16 max-w-3xl text-center"
+          viewport={{ once: true }}
+          className="mb-16"
         >
-          <span className="inline-flex items-center rounded-full border border-[#d6b36a]/20 bg-[#d6b36a]/5 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-[#9b7a32]">
-            Our Approach
-          </span>
-
-          <h2 className="mt-5 text-3xl font-bold tracking-tight text-[#171a18] md:text-5xl">
-            Yoga Therapy Designed
-            <span className="block text-[#9b7a32]">
-              Around You
-            </span>
+          <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[#1F3528]">
+            How It Works
+          </p>
+          <h2 className="max-w-[640px] text-[48px] font-bold leading-[1.1] tracking-[-0.02em] text-[#1A1A1A] lg:text-[56px]">
+            Your therapy journey, entirely online.
           </h2>
-
-          <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-[#666666] md:text-lg">
-            We combine traditional yoga practices with structured assessment
-            and personalised therapeutic guidance to support your health
-            journey.
+          <p className="mt-4 max-w-[560px] text-[16px] leading-[1.7] text-[#555555]">
+            From your first consultation to lasting results — everything happens from the comfort of your home. No travel. No waiting rooms.
           </p>
         </motion.div>
 
-        {/* Therapy Methods */}
-        <div className="grid gap-6 lg:grid-cols-3">
-          {methods.map((method, index) => {
-            const Icon = method.icon;
+        {/* Steps Grid */}
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {steps.map((item, index) => {
+            const Icon = item.icon;
 
             return (
-              <motion.article
-                key={method.title}
-                initial={{ opacity: 0, y: 30 }}
+              <motion.div
+                key={item.step}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: 0.55,
-                  delay: index * 0.1,
-                }}
-                viewport={{ once: true, amount: 0.2 }}
-                className="group relative flex h-full flex-col rounded-3xl border border-[#e7e7e7] bg-white p-7 shadow-[0_10px_40px_rgba(0,0,0,0.04)] transition-all duration-300 hover:-translate-y-2 hover:border-[#d6b36a]/40 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)] md:p-8"
+                transition={{ duration: 0.5, delay: index * 0.06 }}
+                viewport={{ once: true }}
+                className="group relative rounded-lg border border-[#E6E6E6] bg-white p-7 transition-shadow duration-200 hover:shadow-[0_4px_24px_rgba(0,0,0,0.06)]"
               >
-                {/* Badge */}
-                <div className="mb-7">
-                  <span className="inline-flex rounded-full border border-[#d6b36a]/20 bg-[#faf8f2] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-[#9b7a32]">
-                    {method.badge}
-                  </span>
-                </div>
+                {/* Step number */}
+                <span className="text-[12px] font-semibold text-[#8A8480]">
+                  {item.step}
+                </span>
 
                 {/* Icon */}
-                <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#d6b36a]/10 transition-transform duration-300 group-hover:scale-105">
-                  <Icon className="h-7 w-7 text-[#b28b3c]" />
+                <div className="mt-4 flex h-11 w-11 items-center justify-center rounded-lg bg-[#F2EFEA]">
+                  <Icon className="h-5 w-5 text-[#1F3528]" />
                 </div>
 
                 {/* Title */}
-                <h3 className="text-xl font-bold tracking-tight text-[#171a18] md:text-2xl">
-                  {method.title}
+                <h3 className="mt-5 text-[16px] font-semibold leading-tight text-[#1A1A1A]">
+                  {item.title}
                 </h3>
 
                 {/* Description */}
-                <p className="mt-4 text-sm leading-7 text-[#666666]">
-                  {method.description}
+                <p className="mt-2 text-[13px] leading-[1.7] text-[#555555]">
+                  {item.description}
                 </p>
 
-                {/* Divider */}
-                <div className="my-6 h-px bg-[#eeeeee]" />
-
-                {/* Features */}
-                <ul className="space-y-3">
-                  {method.features.map((feature) => (
-                    <li
-                      key={feature}
-                      className="flex items-start gap-3 text-sm text-[#555555]"
-                    >
-                      <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-[#7bae8a]" />
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                {/* CTA */}
-                <Link
-                  href="/booking"
-                  className="mt-auto pt-8 inline-flex w-fit items-center gap-2 text-sm font-bold text-[#9b7a32] transition-all group-hover:gap-3"
-                >
-                  Explore Therapy
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-              </motion.article>
+                {/* Connector line (between grid items, not last row) */}
+                {index < 4 && (
+                  <div className="absolute -right-3 top-1/2 hidden h-px w-6 bg-[#E6E6E6] lg:block" />
+                )}
+              </motion.div>
             );
           })}
         </div>
 
         {/* Bottom CTA */}
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.25 }}
-          viewport={{ once: true, amount: 0.2 }}
-          className="mt-16 overflow-hidden rounded-[2rem] border border-[#d6b36a]/20 bg-[#faf9f5] px-6 py-12 text-center md:px-12 md:py-14"
+          transition={{ duration: 0.6, delay: 0.5 }}
+          viewport={{ once: true }}
+          className="mt-16 border-t border-[#E6E6E6] pt-12"
         >
-          <div className="mx-auto max-w-2xl">
-            <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#7bae8a]">
-              Begin Your Therapy Journey
-            </p>
-
-            <h3 className="mt-4 text-2xl font-bold tracking-tight text-[#171a18] md:text-4xl">
-              Take the first step towards
-              <span className="text-[#9b7a32]"> better wellbeing.</span>
-            </h3>
-
-            <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-[#666666] md:text-base">
-              Book a consultation and discuss your health goals with our yoga
-              therapy team before beginning a personalised program.
-            </p>
-
+          <div className="flex flex-col items-center text-center sm:flex-row sm:text-left sm:justify-between">
+            <div>
+              <h3 className="text-[24px] font-semibold text-[#1A1A1A]">
+                Ready to start your journey?
+              </h3>
+              <p className="mt-1 text-[15px] text-[#555555]">
+                Book your first consultation online — it takes less than 5 minutes.
+              </p>
+            </div>
             <Link
               href="/booking"
-              className="mt-7 inline-flex items-center gap-2 rounded-full bg-[#171a18] px-8 py-4 text-sm font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#2a302c] hover:shadow-lg"
+              className="mt-5 inline-flex h-[48px] items-center gap-2 rounded-full bg-[#1A1A1A] px-7 text-[15px] font-semibold text-white transition-colors duration-150 hover:bg-[#333333] sm:mt-0"
             >
-              Book a Consultation
+              Start Now
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>

@@ -4,12 +4,14 @@ import type { Metadata } from "next";
 import { Inter, Cormorant_Garamond } from "next/font/google";
 
 import { TRPCReactProvider } from "~/trpc/react";
+import Navbar from "./_components/Navbar";
+import Footer from "./_components/Footer";
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
   display: "swap",
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700"],
 });
 
 const cormorant = Cormorant_Garamond({
@@ -113,24 +115,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${inter.variable} ${cormorant.variable}`}
-    >
-      <body
-        className="
-          min-h-screen
-          overflow-x-hidden
-          bg-[#050706]
-          text-[#f7efe0]
-          font-sans
-          antialiased
-          selection:bg-[#d6b36a]
-          selection:text-[#050706]
-        "
-      >
+    <html lang="en" className={`${inter.variable} ${cormorant.variable}`}>
+      <body className="min-h-screen overflow-x-hidden bg-[#FFFFFF] font-sans text-[#1A1A1A] antialiased">
         <TRPCReactProvider>
-          {children}
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
         </TRPCReactProvider>
       </body>
     </html>
