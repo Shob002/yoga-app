@@ -11,7 +11,7 @@ const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
   display: "swap",
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800", "900"],
 });
 
 const cormorant = Cormorant_Garamond({
@@ -116,10 +116,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${cormorant.variable}`}>
-      <body className="min-h-screen overflow-x-hidden bg-[#FFFFFF] font-sans text-[#1A1A1A] antialiased">
+      <body className="min-h-screen overflow-x-hidden bg-[#FFFFFF] font-sans text-[#000000] antialiased">
         <TRPCReactProvider>
           <Navbar />
-          <main>{children}</main>
+          <main className="w-full">{children}</main>
           <Footer />
         </TRPCReactProvider>
       </body>
