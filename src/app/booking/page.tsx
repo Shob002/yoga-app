@@ -2,30 +2,25 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import Link from "next/link";
-import { ArrowRight, Send, Phone, Mail, MapPin, MessageCircle, AlertCircle, CheckCircle2, Loader2 } from "lucide-react";
+import { CheckCircle2, Send, Video, Clock, UserCheck, ShieldCheck, MessageCircle, AlertCircle, Loader2, Phone, Mail, Calendar } from "lucide-react";
 import { api } from "~/trpc/react";
 
-const contactInfo = [
-  { icon: Phone, label: "Call / WhatsApp", value: "+91 9353708126", href: "tel:+919353708126" },
-  { icon: Mail, label: "Email", value: "info@hayagrivayoga.com", href: "mailto:info@hayagrivayoga.com" },
-  { icon: MapPin, label: "Location", value: "Tumakuru, Karnataka, India", href: "#" },
+const timeSlots = [
+  { label: "Morning", slots: ["07:00", "08:00", "09:00", "10:00", "11:00"] },
+  { label: "Afternoon", slots: ["12:00", "13:00", "14:00", "15:00", "16:00"] },
+  { label: "Evening", slots: ["17:00", "18:00", "19:00", "20:00"] },
 ];
 
-const reasons = [
-  "Personal Yoga Therapy",
-  "Stress & Anxiety Management",
-  "Back Pain Management",
-  "Lifestyle Disorder Support",
-  "Corporate Wellness",
-  "General Enquiry",
-];
+const today = new Date().toISOString().split("T")[0];
+const maxDate = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString().split("T")[0];
 
 interface FormData {
   name: string;
   phone: string;
   email: string;
-  subject: string;
+  service: string;
+  date: string;
+  time: string;
   message: string;
 }
 
@@ -33,53 +28,55 @@ interface FormErrors {
   name?: string;
   phone?: string;
   email?: string;
-  message?: string;
+  service?: string;
+  date?: string;
+  time?: string;
 }
 
 const initialForm: FormData = {
   name: "",
   phone: "",
   email: "",
-  subject: reasons[0] ?? "General Enquiry",
+  service: "",
+  date: "",
+  time: "",
   message: "",
 };
 
 function validateForm(form: FormData): FormErrors {
   const errors: FormErrors = {};
-
-  if (!form.name.trim()) {
-    errors.name = "Full name is required.";
-  } else if (form.name.trim().length < 3) {
-    errors.name = "Name must be at least 3 characters.";
-  }
+  if (!form.name.trim()) errors.name = "Full name is required.";
+  else if (form.name.trim().length < 2) errors.name = "Name must be at least 2 characters.";
 
   const phoneClean = form.phone.replace(/[\s\-()]/g, "");
-  if (form.phone.trim() && !/^\+?\d{7,15}$/.test(phoneClean)) {
-    errors.phone = "Enter a valid phone number.";
-  }
+  if (!form.phone.trim()) errors.phone = "Phone number is required.";
+  else if (phoneClean.length < 10) errors.phone = "Phone must be at least 10 digits.";
 
-  if (!form.email.trim()) {
-    errors.email = "Email address is required.";
-  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) {
-    errors.email = "Enter a valid email address.";
-  }
+  if (form.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) errors.email = "Enter a valid email address.";
 
-  if (!form.message.trim()) {
-    errors.message = "Message is required.";
-  } else if (form.message.trim().length < 5) {
-    errors.message = "Message must be at least 5 characters.";
-  }
+  if (!form.service) errors.service = "Please select a consultation type.";
+  if (!form.date) errors.date = "Please select a preferred date.";
+  if (!form.time) errors.time = "Please select a preferred time.";
 
   return errors;
 }
 
-export default function ContactPage() {
+export default function BookingPage() {
   const [form, setForm] = useState<FormData>(initialForm);
   const [errors, setErrors] = useState<FormErrors>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const [submitted, setSubmitted] = useState(false);
+  const [bookingResult, setBookingResult] = useState<{ bookingId?: string; date?: string; time?: string; service?: string }>({});
 
-  const contactMutation = api.contact.send.useMutation({
-    onSuccess: () => {
+  const createBooking = api.booking.create.useMutation({
+    onSuccess: (data) => {
+      setBookingResult({
+        bookingId: data.bookingId,
+        date: data.date,
+        time: data.time,
+        service: data.service,
+      });
+      setSubmitted(true);
       setForm(initialForm);
       setErrors({});
       setTouched({});
@@ -103,6 +100,14 @@ export default function ContactPage() {
     setErrors((prev) => ({ ...prev, [name]: newErrors[name as keyof FormErrors] }));
   }
 
+  function selectTime(time: string) {
+    const updated = { ...form, time };
+    setForm(updated);
+    setTouched((prev) => ({ ...prev, time: true }));
+    const newErrors = validateForm(updated);
+    setErrors((prev) => ({ ...prev, time: newErrors.time }));
+  }
+
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const allTouched: Record<string, boolean> = {};
@@ -111,122 +116,206 @@ export default function ContactPage() {
     const newErrors = validateForm(form);
     setErrors(newErrors);
     if (Object.keys(newErrors).length > 0) return;
-    contactMutation.mutate({
-      name: form.name.trim(),
-      email: form.email.trim(),
-      phone: form.phone.trim() || undefined,
-      subject: form.subject.trim(),
-      message: form.message.trim(),
-    });
+    createBooking.mutate(form);
+  }
+
+  if (submitted) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-white px-6">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-[480px] text-center">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#F2EFEA]">
+            <CheckCircle2 className="h-7 w-7 text-[#1F3528]" />
+          </div>
+          <h1 className="mt-6 text-[28px] font-black text-[#000000]">Booking request submitted.</h1>
+          <p className="mt-3 text-[15px] leading-[1.7] text-[#555555]">
+            Thank you, {form.name || "your booking"} has been received. We will review your request and send a confirmation with your Zoom link shortly.
+          </p>
+          {bookingResult.date && (
+            <div className="mt-6 rounded-lg border border-[#E0DCD6] bg-[#FAF8F5] p-5 text-left">
+              <p className="text-[12px] font-bold uppercase tracking-[0.15em] text-[#8A8480]">Request Summary</p>
+              <p className="mt-2 text-[14px] font-semibold text-[#000000]">{bookingResult.service}</p>
+              <p className="text-[13px] text-[#555555]">{bookingResult.date} at {bookingResult.time} IST</p>
+            </div>
+          )}
+          <button onClick={() => setSubmitted(false)} className="mt-8 inline-flex h-[48px] items-center rounded-full bg-[#000000] px-8 text-[14px] font-black uppercase tracking-[0.1em] text-white transition-colors hover:bg-[#1F3528]">
+            Book Another Session
+          </button>
+        </motion.div>
+      </main>
+    );
   }
 
   return (
-    <main className="bg-white px-6 py-12 lg:px-8 lg:py-20">
-      <div className="mx-auto max-w-[1240px]">
-        <div className="grid gap-16 lg:grid-cols-[1fr_1.2fr]">
-          {/* LEFT */}
-          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[#1F3528]">Contact Us</p>
-            <h1 className="text-[48px] font-bold leading-[1.1] tracking-[-0.02em] text-[#1A1A1A] lg:text-[56px]">Let's talk about your wellness.</h1>
-            <p className="mt-4 max-w-[480px] text-[16px] leading-[1.7] text-[#555555]">Connect with our yoga therapy team for personalized guidance on your health journey.</p>
+    <main className="min-h-screen bg-white">
+      <div className="mx-auto grid max-w-[1240px] lg:grid-cols-[420px_1fr] lg:border-x lg:border-[#E6E6E6]">
+        {/* LEFT — Info Panel */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          className="flex flex-col justify-center border-b border-[#E6E6E6] bg-[#FAF8F5] px-8 py-16 lg:border-b-0 lg:border-r lg:border-[#E6E6E6] lg:py-0"
+        >
+          <div>
+            <p className="text-[12px] font-black uppercase tracking-[0.2em] text-[#1F3528]">Book Consultation</p>
 
-            <div className="mt-12 space-y-4">
-              {contactInfo.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <a key={item.label} href={item.href} className="flex items-center gap-4 rounded-lg border border-[#E0DCD6] bg-[#FAF8F5] p-5 transition-all duration-150 hover:border-[#1F3528] hover:shadow-[0_4px_16px_rgba(0,0,0,0.04)]">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#F2EFEA]">
-                      <Icon className="h-5 w-5 text-[#1F3528]" />
-                    </div>
-                    <div>
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-[#8A8480]">{item.label}</p>
-                      <p className="text-[15px] font-semibold text-[#1A1A1A]">{item.value}</p>
-                    </div>
-                  </a>
-                );
-              })}
+            <div className="mt-10 space-y-6">
+              <div className="flex items-start gap-4">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#1F3528]">
+                  <ShieldCheck className="h-5 w-5 text-white" />
+                </div>
+                <div>
+                  <p className="text-[15px] font-black text-[#000000]">Certified Therapists</p>
+                  <p className="mt-1 text-[13px] font-medium leading-[1.5] text-[#8A8480]">MSc Yoga Therapy from MAHE, Manipal</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#1F3528]">
+                  <Video className="h-5 w-5 text-white" />
+                </div>
+                <div>
+                  <p className="text-[15px] font-black text-[#000000]">Online Sessions</p>
+                  <p className="mt-1 text-[13px] font-medium leading-[1.5] text-[#8A8480]">Connect via Zoom from anywhere</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#1F3528]">
+                  <Clock className="h-5 w-5 text-white" />
+                </div>
+                <div>
+                  <p className="text-[15px] font-black text-[#000000]">60 Minutes</p>
+                  <p className="mt-1 text-[13px] font-medium leading-[1.5] text-[#8A8480]">Focused one-to-one session</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#1F3528]">
+                  <UserCheck className="h-5 w-5 text-white" />
+                </div>
+                <div>
+                  <p className="text-[15px] font-black text-[#000000]">Personalized Plan</p>
+                  <p className="mt-1 text-[13px] font-medium leading-[1.5] text-[#8A8480]">Therapy designed around your needs</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#1F3528]">
+                  <Calendar className="h-5 w-5 text-white" />
+                </div>
+                <div>
+                  <p className="text-[15px] font-black text-[#000000]">Zoom Meeting</p>
+                  <p className="mt-1 text-[13px] font-medium leading-[1.5] text-[#8A8480]">Secure link sent after confirmation</p>
+                </div>
+              </div>
             </div>
 
             <a
               href="https://wa.me/919353708126"
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-6 inline-flex h-[48px] items-center gap-2 rounded-full bg-[#25D366] px-6 text-[15px] font-semibold text-white transition-colors hover:bg-[#20BA5A]"
+              className="mt-10 inline-flex h-[48px] w-full items-center justify-center gap-2 rounded-full bg-[#25D366] text-[14px] font-black uppercase tracking-[0.1em] text-white transition-colors hover:bg-[#20BA5A]"
             >
-              <MessageCircle className="h-4 w-4" />
+              <MessageCircle className="h-5 w-5" />
               Chat on WhatsApp
             </a>
-          </motion.div>
+          </div>
+        </motion.div>
 
-          {/* RIGHT — Form */}
-          <motion.form initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.15 }} onSubmit={handleSubmit} noValidate className="rounded-lg border border-[#E0DCD6] bg-[#FAF8F5] p-7 lg:p-10">
-            {contactMutation.isSuccess && (
-              <div className="mb-6 rounded-lg border border-[#1F3528]/20 bg-[#1F3528]/5 px-4 py-4">
-                <div className="flex items-center gap-3">
-                  <CheckCircle2 className="h-5 w-5 text-[#1F3528]" />
-                  <div>
-                    <p className="text-[14px] font-semibold text-[#1F3528]">Message sent successfully.</p>
-                    <p className="text-[12px] text-[#555555]">We will get back to you within 24 hours.</p>
-                  </div>
-                </div>
-              </div>
-            )}
+        {/* RIGHT — Form Panel */}
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="flex items-center px-8 py-16 lg:py-0"
+        >
+          <form onSubmit={handleSubmit} noValidate className="w-full max-w-[560px]">
+            <h2 className="mb-8 text-[28px] font-black tracking-[-0.02em] text-[#000000]">Your Details</h2>
 
             <div className="space-y-5">
-              <div className="grid gap-5 sm:grid-cols-2">
-                <Field label="Full Name" name="name" value={form.name} onChange={handleChange} onBlur={handleBlur} placeholder="Your full name" required error={touched.name ? errors.name : undefined} />
-                <Field label="Phone Number" name="phone" type="tel" value={form.phone} onChange={handleChange} onBlur={handleBlur} placeholder="+91 9876543210" error={touched.phone ? errors.phone : undefined} />
-              </div>
-              <Field label="Email Address" name="email" type="email" value={form.email} onChange={handleChange} onBlur={handleBlur} placeholder="you@example.com" required error={touched.email ? errors.email : undefined} />
+              <Field label="Full Name" name="name" icon={<UserCheck className="h-4 w-4" />} value={form.name} onChange={handleChange} onBlur={handleBlur} placeholder="Your full name" required error={touched.name ? errors.name : undefined} />
+              <Field label="Phone Number" name="phone" type="tel" icon={<Phone className="h-4 w-4" />} value={form.phone} onChange={handleChange} onBlur={handleBlur} placeholder="9353708126" required error={touched.phone ? errors.phone : undefined} />
+              <Field label="Email Address" name="email" type="email" icon={<Mail className="h-4 w-4" />} value={form.email} onChange={handleChange} onBlur={handleBlur} placeholder="you@example.com" error={touched.email ? errors.email : undefined} />
+
               <div>
-                <label htmlFor="subject" className="mb-2 block text-[13px] font-semibold text-[#1A1A1A]">How Can We Help?</label>
-                <select id="subject" name="subject" value={form.subject} onChange={handleChange} className="h-[48px] w-full rounded-lg border border-[#E0DCD6] bg-white px-4 text-[14px] text-[#1A1A1A] outline-none transition focus:border-[#1F3528] focus:ring-2 focus:ring-[#1F3528]/10">
-                  {reasons.map((reason) => (
-                    <option key={reason} value={reason}>{reason}</option>
-                  ))}
+                <label htmlFor="service" className="mb-2 block text-[13px] font-black uppercase tracking-[0.1em] text-[#000000]">Consultation Type <span className="text-red-500">*</span></label>
+                <select id="service" name="service" value={form.service} onChange={handleChange} onBlur={handleBlur} required className={`h-[52px] w-full rounded-lg border bg-white px-4 text-[15px] font-medium text-[#000000] outline-none transition focus:ring-2 focus:ring-[#1F3528]/10 ${touched.service && errors.service ? "border-red-400 focus:border-red-400" : "border-[#1A1A1A] focus:border-[#1F3528]"}`}>
+                  <option value="">Select consultation type</option>
+                  <option>Yoga Therapy</option>
+                  <option>Stress Management</option>
+                  <option>Back Pain Relief</option>
+                  <option>Sleep Wellness</option>
+                  <option>PCOS & Women's Wellness</option>
+                  <option>Diabetes Management</option>
+                  <option>Other</option>
                 </select>
-              </div>
-              <div>
-                <label htmlFor="message" className="mb-2 block text-[13px] font-semibold text-[#1A1A1A]">Message <span className="text-red-500">*</span></label>
-                <textarea id="message" name="message" value={form.message} onChange={handleChange} onBlur={handleBlur} rows={5} placeholder="Tell us about your health goal or concern..." required className={`w-full resize-none rounded-lg border bg-white px-4 py-3 text-[14px] leading-[1.7] text-[#1A1A1A] outline-none transition placeholder:text-[#8A8480] focus:ring-2 focus:ring-[#1F3528]/10 ${touched.message && errors.message ? "border-red-400 focus:border-red-400" : "border-[#E0DCD6] focus:border-[#1F3528]"}`} />
-                {touched.message && errors.message && <p className="mt-1 flex items-center gap-1 text-[12px] text-red-500"><AlertCircle className="h-3 w-3" />{errors.message}</p>}
+                {touched.service && errors.service && <p className="mt-1 flex items-center gap-1 text-[12px] font-medium text-red-500"><AlertCircle className="h-3 w-3" />{errors.service}</p>}
               </div>
 
-              {contactMutation.isError && (
-                <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3">
-                  <p className="text-[13px] text-red-600">{contactMutation.error.message || "Something went wrong. Please try again."}</p>
+              <div>
+                <label htmlFor="date" className="mb-2 block text-[13px] font-black uppercase tracking-[0.1em] text-[#000000]">Preferred Date <span className="text-red-500">*</span></label>
+                <input id="date" name="date" type="date" min={today} max={maxDate} value={form.date} onChange={handleChange} onBlur={handleBlur} required className={`h-[52px] w-full rounded-lg border bg-white px-4 text-[15px] font-medium text-[#000000] outline-none transition focus:ring-2 focus:ring-[#1F3528]/10 ${touched.date && errors.date ? "border-red-400 focus:border-red-400" : "border-[#1A1A1A] focus:border-[#1F3528]"}`} />
+                {touched.date && errors.date ? <p className="mt-1 flex items-center gap-1 text-[12px] font-medium text-red-500"><AlertCircle className="h-3 w-3" />{errors.date}</p> : <p className="mt-1 text-[11px] text-[#8A8480]">Available up to 90 days ahead</p>}
+              </div>
+
+              <div>
+                <label className="mb-3 block text-[13px] font-black uppercase tracking-[0.1em] text-[#000000]">Preferred Time (IST) <span className="text-red-500">*</span></label>
+                <div className="space-y-4">
+                  {timeSlots.map((group) => (
+                    <div key={group.label}>
+                      <p className="mb-2 text-[11px] font-black uppercase tracking-[0.15em] text-[#8A8480]">{group.label}</p>
+                      <div className="flex flex-wrap gap-2">
+                        {group.slots.map((slot) => {
+                          const isSelected = form.time === slot;
+                          return (
+                            <button key={slot} type="button" onClick={() => selectTime(slot)} className={`rounded-lg border-2 px-4 py-2.5 text-[13px] font-bold transition-all duration-150 ${isSelected ? "border-[#000000] bg-[#000000] text-white" : "border-[#D9D9D9] bg-white text-[#555555] hover:border-[#1F3528] hover:text-[#000000]"}`}>
+                              {slot}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                {form.time && <p className="mt-3 text-[12px] font-bold text-[#1F3528]">Selected: <span className="font-black">{form.time}</span> IST</p>}
+                {touched.time && errors.time && <p className="mt-1 flex items-center gap-1 text-[12px] font-medium text-red-500"><AlertCircle className="h-3 w-3" />{errors.time}</p>}
+              </div>
+
+              <div>
+                <label htmlFor="message" className="mb-2 block text-[13px] font-black uppercase tracking-[0.1em] text-[#000000]">Health Concern / Goal</label>
+                <textarea id="message" name="message" value={form.message} onChange={handleChange} rows={4} placeholder="Briefly describe your concern, symptoms, or wellness goal..." className="w-full resize-none rounded-lg border-2 border-[#1A1A1A] bg-white px-4 py-3 text-[15px] font-medium leading-[1.7] text-[#000000] outline-none transition placeholder:text-[#8A8480] focus:border-[#1F3528] focus:ring-2 focus:ring-[#1F3528]/10" />
+              </div>
+
+              {createBooking.isError && (
+                <div className="rounded-lg border-2 border-red-400 bg-red-50 px-4 py-3">
+                  <p className="text-[13px] font-medium text-red-600">{createBooking.error.message || "Something went wrong. Please try again."}</p>
                 </div>
               )}
 
-              <button type="submit" disabled={contactMutation.isPending} className="flex h-[48px] w-full items-center justify-center gap-2 rounded-full bg-[#1A1A1A] text-[15px] font-semibold text-white transition-colors hover:bg-[#333333] disabled:opacity-50">
-                {contactMutation.isPending ? <><Loader2 className="h-4 w-4 animate-spin" /> Sending...</> : <><Send className="h-4 w-4" /> Send Message</>}
+              <button type="submit" disabled={createBooking.isPending} className="flex h-[58px] w-full items-center justify-center gap-2 rounded-full bg-[#000000] text-[15px] font-black uppercase tracking-[0.1em] text-white transition-all duration-200 hover:bg-[#1F3528] hover:shadow-[0_8px_30px_rgba(0,0,0,0.2)] disabled:opacity-50">
+                {createBooking.isPending ? <><Loader2 className="h-5 w-5 animate-spin" /> Submitting...</> : <><Send className="h-5 w-5" /> Book Consultation</>}
               </button>
 
-              <p className="text-center text-[12px] text-[#8A8480]">We typically respond within 24 hours.</p>
+              <p className="text-center text-[12px] font-medium text-[#8A8480]">We will review your request and send a confirmation with your Zoom link.</p>
             </div>
-          </motion.form>
-        </div>
+          </form>
+        </motion.div>
       </div>
     </main>
   );
 }
 
-function Field({ label, name, value, onChange, onBlur, placeholder, type = "text", required = false, error }: {
-  label: string;
-  name: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
-  placeholder?: string;
-  type?: string;
-  required?: boolean;
-  error?: string;
+function Field({ label, name, value, onChange, onBlur, placeholder, type = "text", icon, required = false, error }: {
+  label: string; name: string; value: string; onChange: (e: React.ChangeEvent<HTMLInputElement>) => void; onBlur: (e: React.FocusEvent<HTMLInputElement>) => void; placeholder?: string; type?: string; icon?: React.ReactNode; required?: boolean; error?: string;
 }) {
   return (
     <div>
-      <label htmlFor={name} className="mb-2 block text-[13px] font-semibold text-[#1A1A1A]">{label}{required && <span className="text-red-500"> *</span>}</label>
-      <input id={name} name={name} type={type} value={value} onChange={onChange} onBlur={onBlur} placeholder={placeholder} required={required} className={`h-[48px] w-full rounded-lg border bg-white px-4 text-[14px] text-[#1A1A1A] outline-none transition placeholder:text-[#8A8480] focus:ring-2 focus:ring-[#1F3528]/10 ${error ? "border-red-400 focus:border-red-400" : "border-[#E0DCD6] focus:border-[#1F3528]"}`} />
-      {error && <p className="mt-1 flex items-center gap-1 text-[12px] text-red-500"><AlertCircle className="h-3 w-3" />{error}</p>}
+      <label htmlFor={name} className="mb-2 block text-[13px] font-black uppercase tracking-[0.1em] text-[#000000]">{label}{required && <span className="text-red-500"> *</span>}</label>
+      <div className="relative">
+        {icon && <div className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[#8A8480]">{icon}</div>}
+        <input id={name} name={name} type={type} value={value} onChange={onChange} onBlur={onBlur} placeholder={placeholder} required={required} className={`h-[52px] w-full rounded-lg border bg-white text-[15px] font-medium text-[#000000] outline-none transition placeholder:text-[#8A8480] focus:ring-2 focus:ring-[#1F3528]/10 ${icon ? "pl-12 pr-4" : "px-4"} ${error ? "border-red-400 focus:border-red-400" : "border-[#1A1A1A] focus:border-[#1F3528]"}`} />
+      </div>
+      {error && <p className="mt-1 flex items-center gap-1 text-[12px] font-medium text-red-500"><AlertCircle className="h-3 w-3" />{error}</p>}
     </div>
   );
 }
